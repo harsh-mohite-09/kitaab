@@ -1,17 +1,23 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 
 const SignupPage = () => {
-  const { setToken } = useAuthContext();
+  const { token, setToken, setUser } = useAuthContext();
+  const navigate = useNavigate();
   const [userConfig, setUserConfig] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
+  const [userExists, setUserExists] = useState(false);
+  useEffect(() => {
+    if (token) {
+      navigate("/user_profile");
+    }
+  }, [token, navigate]);
 
   const firstNameInputHandler = (e) => {
     setUserConfig((prev) => ({
@@ -51,16 +57,19 @@ const SignupPage = () => {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(createdUser));
       setToken(token);
+      setUser(createdUser);
+      navigate("/");
     } catch (error) {
-      console.log(error);
+      if (error.response.status === 422) {
+        setUserExists(true);
+      }
+      setUserConfig({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+      });
     }
-    setUserConfig({
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-    });
-    navigate("/");
   };
 
   return (
@@ -72,6 +81,7 @@ const SignupPage = () => {
           <input
             id="firstName"
             type="text"
+            value={userConfig.firstName}
             required
             onChange={firstNameInputHandler}
           />
@@ -81,25 +91,34 @@ const SignupPage = () => {
           <input
             id="lastName"
             type="text"
+            value={userConfig.lastName}
             required
             onChange={lastNameInputHandler}
           />
         </div>
         <div>
           <label htmlFor="email">email: </label>
-          <input id="email" type="text" required onChange={emailInputHandler} />
+          <input
+            id="email"
+            type="text"
+            value={userConfig.email}
+            required
+            onChange={emailInputHandler}
+          />
         </div>
         <div>
           <label htmlFor="password">Password: </label>
           <input
             id="password"
-            type="text"
+            type="password"
+            value={userConfig.password}
             required
             onChange={passwordInputHandler}
           />
         </div>
         <button>Create Account</button>
       </form>
+      {userExists && <p>User Already Exists!</p>}
       <Link to="/login">Already have an account?</Link>
     </main>
   );

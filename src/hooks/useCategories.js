@@ -11,7 +11,7 @@ export const useCategories = () => {
   const getCategories = async () => {
     const res = await axios.get("/api/categories");
     // const data = await res.json();
-    setCategories(res);
+    setCategories(res.data.categories);
   };
 
   return categories;

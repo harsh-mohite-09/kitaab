@@ -1,27 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const NavBar = () => {
   const { token } = useAuthContext();
-
-  console.log("token", token);
 
   return (
     <header>
       <nav>
         <div className="logo">
-          <Link to="/">Home</Link>
+          <Link to="/">Kitaab</Link>
         </div>
         <div className="search-input">
           <input type="text" />
-          <button>Search</button>
+          <button>
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+          </button>
         </div>
 
         <ul className="nav-links">
-          <li>
-            <Link to="/products">Products</Link>
-          </li>
           <li>
             <Link to="/wishlist">Wishlist</Link>
           </li>

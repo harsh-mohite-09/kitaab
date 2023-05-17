@@ -1,15 +1,24 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 import axios from "axios";
 
 const LoginPage = () => {
-  const { setToken } = useAuthContext();
+  const { token, setToken, setUser } = useAuthContext();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (token) {
+      navigate("/user_profile");
+    }
+  }, [token, navigate]);
+
   const [userConfig, setUserConfig] = useState({
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
+  const [noUser, setNoUser] = useState(false);
 
   const emailInputHandler = (e) => {
     setUserConfig((prev) => ({
@@ -35,16 +44,21 @@ const LoginPage = () => {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(foundUser));
       setToken(token);
+      setUser(foundUser);
+      if (location?.state?.from) {
+        navigate(location?.state?.from);
+      } else {
+        navigate("/");
+      }
     } catch (error) {
-      console.log(error);
+      if (error.response.status === 404) {
+        setNoUser(true);
+      }
     }
     setUserConfig({
-      firstName: "",
-      lastName: "",
       email: "",
       password: "",
     });
-    navigate("/");
   };
 
   return (
@@ -53,19 +67,27 @@ const LoginPage = () => {
       <form onSubmit={formSubmitHandler} className="signup-form">
         <div>
           <label htmlFor="email">email: </label>
-          <input id="email" type="text" required onChange={emailInputHandler} />
+          <input
+            id="email"
+            type="text"
+            value={userConfig.email}
+            required
+            onChange={emailInputHandler}
+          />
         </div>
         <div>
           <label htmlFor="password">Password: </label>
           <input
             id="password"
-            type="text"
+            type="password"
+            value={userConfig.password}
             required
             onChange={passwordInputHandler}
           />
         </div>
         <button>Log in</button>
       </form>
+      {noUser && <h3>No user found! Please Create account!</h3>}
       <Link to="/signup">Create New Account</Link>
     </main>
   );

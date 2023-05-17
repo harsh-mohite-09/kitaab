@@ -1,5 +1,7 @@
 import React from "react";
 import { useProducts } from "../hooks/useProducts";
+import Filter from "../components/Filters/Filter";
+import ProductsContainer from "../components/ProductsContainer";
 
 const ProductsPage = () => {
   const products = useProducts();
@@ -7,8 +9,9 @@ const ProductsPage = () => {
   console.log(products);
 
   return (
-    <main>
-      <h1>Products Page</h1>
+    <main className="products-page">
+      <Filter />
+      <ProductsContainer />
     </main>
   );
 };
