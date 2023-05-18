@@ -1,12 +1,12 @@
 import React from "react";
 import Footer from "../components/RootLayout/Footer";
-import { useCategories } from "../hooks/useCategories";
 import books from "../images/books.jpg";
 import { Link } from "react-router-dom";
 import CategoriesCard from "../components/UI/CategoriesCard";
+import { useDataContext } from "../context/dataContext";
 
 const HomePage = () => {
-  const categories = useCategories();
+  const { categories } = useDataContext();
 
   return (
     <>

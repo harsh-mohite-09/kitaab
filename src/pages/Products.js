@@ -1,17 +1,15 @@
 import React from "react";
-import { useProducts } from "../hooks/useProducts";
 import Filter from "../components/Filters/Filter";
 import ProductsContainer from "../components/ProductsContainer";
+import { useDataContext } from "../context/dataContext";
 
 const ProductsPage = () => {
-  const products = useProducts();
-
-  console.log(products);
+  const { products } = useDataContext();
 
   return (
     <main className="products-page">
       <Filter />
-      <ProductsContainer />
+      <ProductsContainer products={products} />
     </main>
   );
 };

@@ -12,6 +12,8 @@ const UserProfilePage = () => {
     navigate("/login");
   };
 
+  console.log(user);
+
   return (
     <main>
       <h1>User Profile Page</h1>

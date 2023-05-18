@@ -2,7 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faHeart,
+  faCartShopping,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 const NavBar = () => {
   const { token } = useAuthContext();
@@ -22,16 +27,24 @@ const NavBar = () => {
 
         <ul className="nav-links">
           <li>
-            <Link to="/wishlist">Wishlist</Link>
+            <Link to="/wishlist">
+              <FontAwesomeIcon icon={faHeart} />
+            </Link>
           </li>
           <li>
-            <Link to="/cart">Cart</Link>
+            <Link to="/cart">
+              <FontAwesomeIcon icon={faCartShopping} />
+            </Link>
           </li>
           <li>
             {token ? (
-              <Link to="/user_profile">Profile</Link>
+              <Link to="/user_profile">
+                <FontAwesomeIcon icon={faUser} />
+              </Link>
             ) : (
-              <Link to="/login">Login</Link>
+              <Link to="/login">
+                <FontAwesomeIcon icon={faUser} />
+              </Link>
             )}
           </li>
         </ul>

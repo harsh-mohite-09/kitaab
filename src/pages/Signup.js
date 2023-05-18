@@ -73,53 +73,57 @@ const SignupPage = () => {
   };
 
   return (
-    <main>
-      <h1>Signup Page</h1>
-      <form onSubmit={formSubmitHandler} className="signup-form">
-        <div>
-          <label htmlFor="firstName">First Name: </label>
-          <input
-            id="firstName"
-            type="text"
-            value={userConfig.firstName}
-            required
-            onChange={firstNameInputHandler}
-          />
-        </div>
-        <div>
-          <label htmlFor="lastName">Last Name: </label>
-          <input
-            id="lastName"
-            type="text"
-            value={userConfig.lastName}
-            required
-            onChange={lastNameInputHandler}
-          />
-        </div>
-        <div>
-          <label htmlFor="email">email: </label>
-          <input
-            id="email"
-            type="text"
-            value={userConfig.email}
-            required
-            onChange={emailInputHandler}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password: </label>
-          <input
-            id="password"
-            type="password"
-            value={userConfig.password}
-            required
-            onChange={passwordInputHandler}
-          />
-        </div>
-        <button>Create Account</button>
-      </form>
-      {userExists && <p>User Already Exists!</p>}
-      <Link to="/login">Already have an account?</Link>
+    <main className="auth-page">
+      <div className="auth-form auth-signup">
+        <h2>Sign Up</h2>
+        <form onSubmit={formSubmitHandler} className="auth-form_main">
+          <div className="auth-form__inputs">
+            <div className="auth-input">
+              <label htmlFor="email">First Name </label>
+              <input
+                id="firstName"
+                type="text"
+                value={userConfig.firstName}
+                required
+                onChange={firstNameInputHandler}
+              />
+            </div>
+            <div className="auth-input">
+              <label htmlFor="email">Last Name </label>
+              <input
+                id="lastName"
+                type="text"
+                value={userConfig.lastName}
+                required
+                onChange={lastNameInputHandler}
+              />
+            </div>
+            <div className="auth-input">
+              <label htmlFor="email">email </label>
+              <input
+                id="email"
+                type="email"
+                value={userConfig.email}
+                required
+                onChange={emailInputHandler}
+              />
+            </div>
+            <div className="auth-input">
+              <label htmlFor="password">Password </label>
+              <input
+                id="password"
+                type="password"
+                value={userConfig.password}
+                required
+                onChange={passwordInputHandler}
+              />
+            </div>
+          </div>
+          <button className="auth-btn">Log in</button>
+        </form>
+        {userExists && <p className="auth-error">User already exsists!</p>}
+        <Link to="/login">Already have an account? Log in</Link>
+      </div>
     </main>
   );
 };

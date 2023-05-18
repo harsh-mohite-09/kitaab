@@ -18,7 +18,7 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
-  const [noUser, setNoUser] = useState(false);
+  const [loginError, setLoginError] = useState(null);
 
   const emailInputHandler = (e) => {
     setUserConfig((prev) => ({
@@ -51,9 +51,7 @@ const LoginPage = () => {
         navigate("/");
       }
     } catch (error) {
-      if (error.response.status === 404) {
-        setNoUser(true);
-      }
+      setLoginError(error.response.statusText);
     }
     setUserConfig({
       email: "",
@@ -62,33 +60,37 @@ const LoginPage = () => {
   };
 
   return (
-    <main>
-      <h1>Login Page</h1>
-      <form onSubmit={formSubmitHandler} className="signup-form">
-        <div>
-          <label htmlFor="email">email: </label>
-          <input
-            id="email"
-            type="text"
-            value={userConfig.email}
-            required
-            onChange={emailInputHandler}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password: </label>
-          <input
-            id="password"
-            type="password"
-            value={userConfig.password}
-            required
-            onChange={passwordInputHandler}
-          />
-        </div>
-        <button>Log in</button>
-      </form>
-      {noUser && <h3>No user found! Please Create account!</h3>}
-      <Link to="/signup">Create New Account</Link>
+    <main className="auth-page">
+      <div className="auth-form auth-login">
+        <h2>Login</h2>
+        <form onSubmit={formSubmitHandler} className="auth-form_main">
+          <div className="auth-form__inputs">
+            <div className="auth-input">
+              <label htmlFor="email">email </label>
+              <input
+                id="email"
+                type="text"
+                value={userConfig.email}
+                required
+                onChange={emailInputHandler}
+              />
+            </div>
+            <div className="auth-input">
+              <label htmlFor="password">Password </label>
+              <input
+                id="password"
+                type="password"
+                value={userConfig.password}
+                required
+                onChange={passwordInputHandler}
+              />
+            </div>
+          </div>
+          <button className="auth-btn">Login</button>
+        </form>
+        {loginError && <p className="auth-error">User {loginError}</p>}
+        <Link to="/signup">Create New Account</Link>
+      </div>
     </main>
   );
 };
