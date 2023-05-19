@@ -8,9 +8,11 @@ import {
   faCartShopping,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { useDataContext } from "../../context/dataContext";
 
 const NavBar = () => {
   const { token } = useAuthContext();
+  const { wishlist, cart } = useDataContext();
 
   return (
     <header>
@@ -26,15 +28,25 @@ const NavBar = () => {
         </div>
 
         <ul className="nav-links">
-          <li>
+          <li className="list">
             <Link to="/wishlist">
               <FontAwesomeIcon icon={faHeart} />
             </Link>
+            {wishlist.length > 0 && (
+              <div className="list-count">
+                <span>{wishlist.length}</span>
+              </div>
+            )}
           </li>
-          <li>
+          <li className="list">
             <Link to="/cart">
               <FontAwesomeIcon icon={faCartShopping} />
             </Link>
+            {cart.length > 0 && (
+              <div className="list-count">
+                <span>{cart.length}</span>
+              </div>
+            )}
           </li>
           <li>
             {token ? (

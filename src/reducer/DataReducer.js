@@ -27,7 +27,25 @@ export const dataReducer = (state, action) => {
         cart: [...action.payload],
       };
 
+    case TYPE.REMOVE_FROM_CART:
+      return {
+        ...state,
+        cart: [...action.payload],
+      };
+
+    case TYPE.UPDATE_QTY_IN_CART:
+      return {
+        ...state,
+        cart: [...action.payload],
+      };
+
     case TYPE.ADD_TO_WISHLIST:
+      return {
+        ...state,
+        wishlist: [...action.payload],
+      };
+
+    case TYPE.REMOVE_FROM_WISHLIST:
       return {
         ...state,
         wishlist: [...action.payload],
