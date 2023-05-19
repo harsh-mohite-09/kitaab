@@ -3,7 +3,7 @@ import { TYPE } from "../utils/constants";
 export const filterInitialState = {
   filterBySearch: "",
   filterByCategories: [],
-  filterByPriceRange: "",
+  filterByPriceRange: "1000",
   filterByRating: "",
   sortByPrice: "",
 };
@@ -52,6 +52,10 @@ export const filterReducer = (state, action) => {
         ...state,
         sortByPrice: action.payload,
       };
+    }
+
+    case TYPE.CLEAR_FILTERS: {
+      return filterInitialState;
     }
 
     default:

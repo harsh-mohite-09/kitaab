@@ -9,10 +9,19 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { useDataContext } from "../../context/dataContext";
+import { useFilterContext } from "../../context/filterContext";
+import { TYPE } from "../../utils/constants";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const { token } = useAuthContext();
   const { wishlist, cart } = useDataContext();
+  const { appliedFilters, filterDispatch } = useFilterContext();
+  const navigate = useNavigate();
+
+  const searchInputChangeHandler = (e) => {
+    filterDispatch({ type: TYPE.FILTER_BY_SEARCH, payload: e.target.value });
+  };
 
   return (
     <header>
@@ -21,8 +30,12 @@ const NavBar = () => {
           <Link to="/">Kitaab</Link>
         </div>
         <div className="search-input">
-          <input type="text" />
-          <button>
+          <input
+            type="text"
+            value={appliedFilters.filterBySearch}
+            onChange={searchInputChangeHandler}
+          />
+          <button onClick={() => navigate("/products")}>
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
         </div>

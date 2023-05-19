@@ -14,7 +14,7 @@ export const products = [
     price: 219,
     originalPrice: 399,
     isBestSeller: true,
-    category: "Self Help",
+    category: "self-help",
     rating: 4.6,
   },
   {
@@ -25,7 +25,7 @@ export const products = [
     price: 250,
     originalPrice: 1200,
     isBestSeller: false,
-    category: "Self Help",
+    category: "self-help",
     rating: 4,
   },
 
@@ -37,7 +37,7 @@ export const products = [
     price: 50,
     originalPrice: 500,
     isBestSeller: false,
-    category: "Fiction",
+    category: "fiction",
     rating: 2,
   },
   {
@@ -48,7 +48,7 @@ export const products = [
     price: 390,
     originalPrice: 790,
     isBestSeller: true,
-    category: "Self Help",
+    category: "self-help",
     rating: 4.8,
   },
 
@@ -60,7 +60,7 @@ export const products = [
     price: 600,
     originalPrice: 1500,
     isBestSeller: false,
-    category: "Non Fiction",
+    category: "non-fiction",
     rating: 4,
   },
   {
@@ -71,7 +71,7 @@ export const products = [
     price: 350,
     originalPrice: 500,
     isBestSeller: false,
-    category: "Non Fiction",
+    category: "non-fiction",
     rating: 2,
   },
   {
@@ -82,7 +82,7 @@ export const products = [
     price: 119,
     originalPrice: 249,
     isBestSeller: false,
-    category: "Non Fiction",
+    category: "non-fiction",
     rating: 3,
   },
   {
@@ -93,7 +93,7 @@ export const products = [
     price: 157,
     originalPrice: 195,
     isBestSeller: false,
-    category: "Fiction",
+    category: "fiction",
     rating: 3,
   },
   {
@@ -104,7 +104,7 @@ export const products = [
     price: 163,
     originalPrice: 205,
     isBestSeller: false,
-    category: "Fiction",
+    category: "fiction",
     rating: 2.5,
   },
   {
@@ -115,7 +115,7 @@ export const products = [
     price: 699,
     originalPrice: 999,
     isBestSeller: false,
-    category: "Self Help",
+    category: "self-help",
     rating: 4,
   },
   {
@@ -126,7 +126,7 @@ export const products = [
     price: 399,
     originalPrice: 699,
     isBestSeller: false,
-    category: "Self Help",
+    category: "self-help",
     rating: 3.5,
   },
   {
@@ -137,7 +137,7 @@ export const products = [
     price: 243,
     originalPrice: 349,
     isBestSeller: false,
-    category: "Non Fiction",
+    category: "non-fiction",
     rating: 1,
   },
 ];

@@ -20,7 +20,7 @@ export const categories = [
   },
   {
     _id: uuid(),
-    categoryName: "horror",
+    categoryName: "self-help",
     description:
       "Meant to cause discomfort and fear for both the character and readers.",
   },
