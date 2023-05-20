@@ -4,9 +4,19 @@ import books from "../images/books.jpg";
 import { Link } from "react-router-dom";
 import CategoriesCard from "../components/UI/CategoriesCard";
 import { useDataContext } from "../context/dataContext";
+import { useFilterContext } from "../context/filterContext";
+import { TYPE } from "../utils/constants";
 
 const HomePage = () => {
   const { categories } = useDataContext();
+  const { filterDispatch } = useFilterContext();
+
+  const categoryFilterHandler = ({ categoryName }) => {
+    filterDispatch({
+      type: TYPE.ADD_CATEGORY_FILTER,
+      payload: categoryName,
+    });
+  };
 
   return (
     <>
@@ -31,7 +41,11 @@ const HomePage = () => {
             <div className="categories__container">
               {categories.map((item) => {
                 return (
-                  <Link to="/products" key={item.id}>
+                  <Link
+                    to="/products"
+                    key={item.id}
+                    onClick={() => categoryFilterHandler(item)}
+                  >
                     <CategoriesCard category={item} />
                   </Link>
                 );

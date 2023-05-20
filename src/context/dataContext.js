@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { dataInitialState, dataReducer } from "../reducer/DataReducer";
 import { TYPE } from "../utils/constants";
 import axios from "axios";
@@ -7,6 +13,7 @@ const DataContext = createContext();
 
 const DataProvider = ({ children }) => {
   const [state, dispatch] = useReducer(dataReducer, dataInitialState);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     loadCategories();
@@ -44,7 +51,10 @@ const DataProvider = ({ children }) => {
         wishlist: state.wishlist,
         categories: state.categories,
         products: state.products,
+        addresses: state.addresses,
         dataDispatch: dispatch,
+        loader,
+        setLoader,
       }}
     >
       {children}

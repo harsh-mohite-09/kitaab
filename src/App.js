@@ -13,6 +13,7 @@ import Mockman from "mockman-js";
 import SignupPage from "./pages/Signup";
 import UserProfilePage from "./pages/UserProfile";
 import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute";
+import CheckoutPage from "./pages/Checkout";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <WishlistPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "checkout",
+        element: (
+          <PrivateRoute>
+            <CheckoutPage />
           </PrivateRoute>
         ),
       },

@@ -57,7 +57,7 @@ const SignupPage = () => {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(createdUser));
       setToken(token);
-      setUser(createdUser);
+      setUser(JSON.stringify(createdUser));
       navigate("/");
     } catch (error) {
       if (error.response.status === 422) {
@@ -119,7 +119,7 @@ const SignupPage = () => {
               />
             </div>
           </div>
-          <button className="auth-btn">Log in</button>
+          <button className="auth-btn">Sign Up</button>
         </form>
         {userExists && <p className="auth-error">User already exsists!</p>}
         <Link to="/login">Already have an account? Log in</Link>

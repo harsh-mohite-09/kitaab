@@ -11,9 +11,6 @@ const ProductsPage = () => {
 
   const filterdProducts = getFilteredProducts(products, appliedFilters);
 
-  console.log(filterdProducts);
-
-  console.log(appliedFilters);
   return (
     <main className="products-page">
       <Filter />

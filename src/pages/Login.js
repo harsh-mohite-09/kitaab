@@ -44,7 +44,7 @@ const LoginPage = () => {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(foundUser));
       setToken(token);
-      setUser(foundUser);
+      setUser(JSON.stringify(foundUser));
       if (location?.state?.from) {
         navigate(location?.state?.from);
       } else {

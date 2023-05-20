@@ -5,6 +5,17 @@ export const dataInitialState = {
   wishlist: [],
   products: [],
   categories: [],
+  addresses: [
+    {
+      id: "1",
+      name: "Harsh Mohite",
+      phone: "9696009211",
+      city: "New Delhi",
+      state: "Delhi",
+      pin: "110006",
+      addressText: "1280, Parathe waali gali, Laal-kila, Chandani Chowk",
+    },
+  ],
 };
 
 export const dataReducer = (state, action) => {
@@ -19,6 +30,30 @@ export const dataReducer = (state, action) => {
       return {
         ...state,
         products: [...action.payload],
+      };
+
+    case TYPE.LOAD_CART:
+      return {
+        ...state,
+        cart: [...action.payload],
+      };
+
+    case TYPE.LOAD_WISHLIST:
+      return {
+        ...state,
+        wishlist: [...action.payload],
+      };
+
+    case TYPE.CLEAR_CART:
+      return {
+        ...state,
+        cart: [],
+      };
+
+    case TYPE.CLEAR_WISHLIST:
+      return {
+        ...state,
+        wishlist: [],
       };
 
     case TYPE.ADD_TO_CART:
@@ -49,6 +84,26 @@ export const dataReducer = (state, action) => {
       return {
         ...state,
         wishlist: [...action.payload],
+      };
+
+    case TYPE.ADD_ADDRESS:
+      return {
+        ...state,
+        addresses: [...state.addresses, action.payload],
+      };
+
+    case TYPE.DELETE_ADDRESS:
+      return {
+        ...state,
+        addresses: state.addresses.filter(({ id }) => id !== action.payload),
+      };
+
+    case TYPE.EDIT_ADDRESS:
+      return {
+        ...state,
+        addresses: state.addresses.map((item) =>
+          item.id === action.payload.id ? action.payload : item
+        ),
       };
 
     default:
