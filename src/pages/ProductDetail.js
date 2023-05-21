@@ -14,7 +14,7 @@ const ProductDetailPage = () => {
   const { id: productId } = useParams();
   const [product, setProduct] = useState(null);
   const { token } = useAuthContext();
-  const { dataDispatch, cart, wishlist } = useDataContext();
+  const { dataDispatch, cart, wishlist, setLoader } = useDataContext();
   const navigate = useNavigate();
 
   const isInCart = isProductInCart(cart, productId);
@@ -50,7 +50,19 @@ const ProductDetailPage = () => {
     }
   };
 
-  if (!product) return <p>Loading...</p>;
+  if (!product) {
+    setLoader(true);
+  } else {
+    setLoader(false);
+  }
+
+  if (!product) {
+    return (
+      <main className="product-detail-page">
+        <h2>Loading...</h2>
+      </main>
+    );
+  }
 
   const { img, name, author, price, category } = product;
   return (

@@ -3,9 +3,13 @@ import { v4 as uuid } from "uuid";
 import AddressForm from "./AddressForm";
 import { useDataContext } from "../../context/dataContext";
 import { TYPE } from "../../utils/constants";
+import { toast } from "react-toastify";
 
-const AddressList = ({ isAddressPage }) => {
-  const [addressSelected, setAddressSelected] = useState(null);
+const AddressList = ({
+  isAddressPage,
+  addressSelected,
+  setAddressSelected,
+}) => {
   const [formDisplay, setFormDisplay] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
@@ -24,6 +28,16 @@ const AddressList = ({ isAddressPage }) => {
 
   const addressDeleteHandler = (addressId) => {
     dataDispatch({ type: TYPE.DELETE_ADDRESS, payload: addressId });
+    toast.error("Deleted Address", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
 
   const addressEditHandler = (address) => {

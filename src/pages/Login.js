@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 import axios from "axios";
+import { useDataContext } from "../context/dataContext";
 
 const LoginPage = () => {
   const { token, setToken, setUser } = useAuthContext();
+  const { setLoader } = useDataContext();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -37,7 +39,9 @@ const LoginPage = () => {
   const formSubmitHandler = async (e) => {
     e.preventDefault();
     try {
+      setLoader(true);
       const response = await axios.post(`/api/auth/login`, userConfig);
+      setLoader(false);
       const token = response.data.encodedToken;
       const foundUser = response.data.foundUser;
 

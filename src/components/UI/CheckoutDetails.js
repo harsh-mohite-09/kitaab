@@ -1,11 +1,27 @@
 import React from "react";
 import { useDataContext } from "../../context/dataContext";
+import { toast } from "react-toastify";
 
-const CheckoutDetails = () => {
+const CheckoutDetails = ({ addressSelected }) => {
   const { cart } = useDataContext();
 
   const totalPrice = cart.reduce((acc, { price, qty }) => acc + price * qty, 0);
   const discountedPrice = totalPrice * 0.8;
+
+  const placeOrderHandler = () => {
+    if (!addressSelected) {
+      toast.warn("Select an address to proceed", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
 
   return (
     <div className="checkout-container__details">
@@ -43,7 +59,9 @@ const CheckoutDetails = () => {
           </div>
         </div>
       </div>
-      <button className="place-order-btn">Place Order</button>
+      <button className="place-order-btn" onClick={placeOrderHandler}>
+        Place Order
+      </button>
     </div>
   );
 };

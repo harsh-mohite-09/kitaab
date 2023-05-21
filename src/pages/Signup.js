@@ -2,9 +2,11 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
+import { useDataContext } from "../context/dataContext";
 
 const SignupPage = () => {
   const { token, setToken, setUser } = useAuthContext();
+  const { setLoader } = useDataContext();
   const navigate = useNavigate();
   const [userConfig, setUserConfig] = useState({
     firstName: "",
@@ -50,7 +52,9 @@ const SignupPage = () => {
   const formSubmitHandler = async (e) => {
     e.preventDefault();
     try {
+      setLoader(true);
       const response = await axios.post(`/api/auth/signup`, userConfig);
+      setLoader(false);
       // saving the encodedToken in the localStorage
       const token = response.data.encodedToken;
       const createdUser = response.data.createdUser;

@@ -1,13 +1,17 @@
 import React from "react";
 import ProductsCard from "./UI/ProductsCard";
 import { Link } from "react-router-dom";
+import { useDataContext } from "../context/dataContext";
 
 const ProductsContainer = ({ products }) => {
-  return (
+  const { loader } = useDataContext();
+  return loader ? (
     <section className="products-container">
-      {!products.length > 0 ? (
-        <p>Loading Products...</p>
-      ) : (
+      <h2 className="products-loading">Loading Products...</h2>
+    </section>
+  ) : (
+    <section className="products-container">
+      {products.length > 0 ? (
         <>
           <div className="products-header">
             <h1>Showing all products</h1>
@@ -23,6 +27,10 @@ const ProductsContainer = ({ products }) => {
             })}
           </div>
         </>
+      ) : (
+        <p className="no-products-found">
+          ❌ No Products Found for applied filters
+        </p>
       )}
     </section>
   );

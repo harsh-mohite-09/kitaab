@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const AddressForm = ({
   setFormDisplay,
@@ -71,9 +72,29 @@ const AddressForm = ({
     if (editingForm) {
       onFormEdit(newAddress);
       setIsEditing(false);
+      toast.success("Updated Address", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } else {
       onFormSubmit(newAddress);
       setFormDisplay(false);
+      toast.success("New Address Added", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 

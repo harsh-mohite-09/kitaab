@@ -897,6 +897,21 @@ input[type="range"] {
   padding: 4px 8px;
 }
 
+/* --------------------TOASTS------------------ */
+
+.toast-container {
+  margin-top: 5rem;
+}
+
+.no-products-found {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.products-loading {
+  text-align: center;
+}
+
 /* ----------------------------------------------------*/
 /* -------------    MEDIA QUERIES    ----------------- */
 /* ----------------------------------------------------*/
