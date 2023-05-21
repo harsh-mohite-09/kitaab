@@ -1,6 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const AddressForm = ({ setFormDisplay, onFormSubmit }) => {
+const AddressForm = ({
+  setFormDisplay,
+  onFormSubmit,
+  onFormEdit,
+  setIsEditing,
+  editingForm,
+  editingAddress,
+}) => {
   const [newAddress, setNewAddress] = useState({
     name: "",
     phone: "",
@@ -9,6 +16,12 @@ const AddressForm = ({ setFormDisplay, onFormSubmit }) => {
     pin: "",
     addressText: "",
   });
+
+  useEffect(() => {
+    if (editingAddress) {
+      setNewAddress(editingAddress);
+    }
+  }, [editingAddress]);
 
   const usernameChangeHandler = (e) => {
     setNewAddress({
@@ -54,54 +67,76 @@ const AddressForm = ({ setFormDisplay, onFormSubmit }) => {
 
   const addressFormSubmitHandler = (e) => {
     e.preventDefault();
-    onFormSubmit(newAddress);
-    setFormDisplay(false);
+
+    if (editingForm) {
+      onFormEdit(newAddress);
+      setIsEditing(false);
+    } else {
+      onFormSubmit(newAddress);
+      setFormDisplay(false);
+    }
   };
 
   return (
-    <div className="address-form">
-      <p>Add new address</p>
-      <form onSubmit={addressFormSubmitHandler}>
+    <div className="address-form-container">
+      <h4>Add new address</h4>
+      <form onSubmit={addressFormSubmitHandler} className="address-form">
         <div>
-          <label htmlFor="username">Name: </label>
           <input
             type="text"
             id="username"
+            value={newAddress.name}
+            placeholder="Enter Name"
             onChange={usernameChangeHandler}
             required
           />
         </div>
         <div>
-          <label htmlFor="addressText">Address: </label>
           <input
             type="text"
             id="addressText"
+            placeholder="Enter Address"
+            value={newAddress.addressText}
             onChange={addressTextChangeHandler}
             required
           />
         </div>
         <div>
-          <label htmlFor="city">City: </label>
-          <input type="text" id="city" onChange={cityChangeHandler} required />
+          <input
+            type="text"
+            id="city"
+            value={newAddress.city}
+            placeholder="Enter City"
+            onChange={cityChangeHandler}
+            required
+          />
         </div>
         <div>
-          <label htmlFor="state">State: </label>
           <input
             type="text"
             id="state"
+            value={newAddress.state}
+            placeholder="Enter State"
             onChange={stateChangeHandler}
             required
           />
         </div>
         <div>
-          <label htmlFor="pin">Pincode: </label>
-          <input type="text" id="pin" onChange={pinChangeHandler} required />
+          <input
+            type="text"
+            id="pin"
+            value={newAddress.pin}
+            placeholder="Enter Pincode"
+            onChange={pinChangeHandler}
+            required
+          />
         </div>
         <div>
-          <label htmlFor="phone">Phone: </label>
           <input
             type="text"
             id="phone"
+            value={newAddress.phone}
+            placeholder="Enter Phone Number"
             onChange={phoneChangeHandler}
             required
           />

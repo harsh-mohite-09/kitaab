@@ -14,6 +14,7 @@ import SignupPage from "./pages/Signup";
 import UserProfilePage from "./pages/UserProfile";
 import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute";
 import CheckoutPage from "./pages/Checkout";
+import AddressPage from "./pages/Address";
 
 const router = createBrowserRouter([
   {
@@ -74,6 +75,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <UserProfilePage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "address",
+        element: (
+          <PrivateRoute>
+            <AddressPage />
           </PrivateRoute>
         ),
       },

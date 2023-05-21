@@ -4,9 +4,11 @@ import AddressForm from "./AddressForm";
 import { useDataContext } from "../../context/dataContext";
 import { TYPE } from "../../utils/constants";
 
-const AddressList = () => {
+const AddressList = ({ isAddressPage }) => {
   const [addressSelected, setAddressSelected] = useState(null);
   const [formDisplay, setFormDisplay] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(null);
   const { addresses, dataDispatch } = useDataContext();
 
   const addressSelectHandler = (e) => {
@@ -20,37 +22,73 @@ const AddressList = () => {
     });
   };
 
+  const addressDeleteHandler = (addressId) => {
+    dataDispatch({ type: TYPE.DELETE_ADDRESS, payload: addressId });
+  };
+
+  const addressEditHandler = (address) => {
+    dataDispatch({ type: TYPE.EDIT_ADDRESS, payload: address });
+  };
+
   return (
     <div className="checkout-container__address">
-      <h3>{addresses.length > 0 && "Choose a delivery Address"}</h3>
-      {addresses.map((address) => {
-        const { id, name, phone, city, state, pin, addressText } = address;
-        return (
-          <div className="address-input-container" key={id}>
-            <input
-              type="radio"
-              id={id}
-              value={id}
-              checked={addressSelected?.id === id}
-              onChange={addressSelectHandler}
-            />
-            <label htmlFor={id}>
-              <div className="address-details">
-                <h4>{name}</h4>
-                <p>{addressText}</p>
-                <p>
-                  {city}-{pin}
-                </p>
-                <p>{state}</p>
-                <p>
-                  <b>Phone:</b> {phone}
-                </p>
-              </div>
-            </label>
-          </div>
-        );
-      })}
-      {!formDisplay && (
+      <h3>
+        {addresses.length > 0 && !isAddressPage && "Choose a delivery Address"}
+      </h3>
+      {!isEditing &&
+        addresses.map((address) => {
+          const { id, name, phone, city, state, pin, addressText } = address;
+          return (
+            <div className="address-input-container" key={id}>
+              {!isAddressPage && (
+                <input
+                  type="radio"
+                  id={id}
+                  value={id}
+                  checked={addressSelected?.id === id}
+                  onChange={addressSelectHandler}
+                />
+              )}
+              <label htmlFor={id} className="address-label">
+                <div className="address-details">
+                  <h4>{name}</h4>
+                  <p>{addressText}</p>
+                  <p>
+                    {city}-{pin}
+                  </p>
+                  <p>{state}</p>
+                  <p>
+                    <b>Phone:</b> {phone}
+                  </p>
+                </div>
+                {isAddressPage && (
+                  <div className="address-manage-btn-group">
+                    <button
+                      onClick={() => {
+                        setEditingAddress(address);
+                        setIsEditing(true);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button onClick={() => addressDeleteHandler(id)}>
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </label>
+            </div>
+          );
+        })}
+      {isEditing && (
+        <AddressForm
+          onFormEdit={addressEditHandler}
+          setIsEditing={setIsEditing}
+          editingAddress={editingAddress}
+          editingForm
+        />
+      )}
+      {!formDisplay && !isEditing && (
         <div
           className="checkout-container__new-address"
           onClick={() => setFormDisplay(true)}

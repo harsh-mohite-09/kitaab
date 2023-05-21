@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 import { useDataContext } from "../context/dataContext";
 import { TYPE } from "../utils/constants";
@@ -38,7 +38,12 @@ const UserProfilePage = () => {
         <h2>Account</h2>
         <div className="user-profile-card">
           <div className="user-profile-card__details">
-            <h3>User Details</h3>
+            <div className="user-profile-card__details-header">
+              <h3>User Profile</h3>
+              <Link to="/address">
+                <button className="addresses_btn">Manage Addresses</button>
+              </Link>
+            </div>
             <p>
               Name: {activeUser.firstName} {activeUser.lastName}
             </p>

@@ -38,9 +38,10 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await axios.post(`/api/auth/login`, userConfig);
-      // saving the encodedToken in the localStorage
       const token = response.data.encodedToken;
       const foundUser = response.data.foundUser;
+
+      // saving the encodedToken in the localStorage
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(foundUser));
       setToken(token);
