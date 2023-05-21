@@ -22,7 +22,11 @@ const DataProvider = ({ children }) => {
 
   const loadCategories = async () => {
     try {
+      setLoader(true);
       const res = await axios.get("/api/categories");
+      setTimeout(() => {
+        setLoader(false);
+      }, 1000);
       dispatch({
         type: TYPE.LOAD_CATEGORIES,
         payload: res.data.categories,
@@ -34,7 +38,11 @@ const DataProvider = ({ children }) => {
 
   const loadProducts = async () => {
     try {
+      setLoader(true);
       const res = await axios.get("/api/products");
+      setTimeout(() => {
+        setLoader(false);
+      }, 1000);
       dispatch({
         type: TYPE.LOAD_PRODUCTS,
         payload: res.data.products,

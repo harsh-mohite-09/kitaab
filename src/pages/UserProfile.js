@@ -1,15 +1,17 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 import { useDataContext } from "../context/dataContext";
 import { TYPE } from "../utils/constants";
 import { removeFromCart } from "../services/cartServices";
 import { removeFromWishlist } from "../services/wishlistServices";
+import { useFilterContext } from "../context/filterContext";
 
 const UserProfilePage = () => {
   const { user, token, setToken } = useAuthContext();
-  const { cart, wishlist, dataDispatch } = useDataContext();
-  const navigate = useNavigate();
+  const { cart, wishlist, dataDispatch, setLoader } = useDataContext();
+  const { filterDispatch } = useFilterContext();
+  // const navigate = useNavigate();
 
   const logoutHandler = () => {
     localStorage.removeItem("token");
@@ -17,17 +19,22 @@ const UserProfilePage = () => {
     setToken(null);
 
     for (const item of cart) {
-      removeFromCart(dataDispatch, item._id, token);
+      removeFromCart(dataDispatch, item._id, token, true);
     }
 
     for (const item of wishlist) {
-      removeFromWishlist(dataDispatch, item._id, token);
+      removeFromWishlist(dataDispatch, item._id, token, true);
     }
 
     dataDispatch({ type: TYPE.CLEAR_CART });
     dataDispatch({ type: TYPE.CLEAR_WISHLIST });
+    filterDispatch({ type: TYPE.CLEAR_FILTERS });
 
-    navigate("/login");
+    setLoader(true);
+    setTimeout(() => {
+      setLoader(false);
+      // navigate("/login");
+    }, 1000);
   };
   console.log(user);
   const activeUser = JSON.parse(user);
