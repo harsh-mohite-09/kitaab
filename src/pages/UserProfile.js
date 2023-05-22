@@ -33,10 +33,9 @@ const UserProfilePage = () => {
     setLoader(true);
     setTimeout(() => {
       setLoader(false);
-      // navigate("/login");
-    }, 1000);
+    }, 500);
   };
-  console.log(user);
+
   const activeUser = JSON.parse(user);
 
   return (

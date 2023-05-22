@@ -23,22 +23,29 @@ const NavBar = () => {
     filterDispatch({ type: TYPE.FILTER_BY_SEARCH, payload: e.target.value });
   };
 
+  const searchFormSubmitHandler = (e) => {
+    e.preventDefault();
+    navigate("/products");
+  };
+
   return (
     <header>
       <nav>
-        <div className="logo">
-          <Link to="/">Kitaab</Link>
-        </div>
-        <div className="search-input">
+        <Link to="/">
+          <div className="logo">
+            <p>Kitaab</p>
+          </div>
+        </Link>
+        <form className="search-input" onSubmit={searchFormSubmitHandler}>
           <input
             type="text"
             value={appliedFilters.filterBySearch}
             onChange={searchInputChangeHandler}
           />
-          <button onClick={() => navigate("/products")}>
+          <button>
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </button>
-        </div>
+        </form>
 
         <ul className="nav-links">
           <li className="list">

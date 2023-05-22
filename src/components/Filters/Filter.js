@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDataContext } from "../../context/dataContext";
 import { TYPE } from "../../utils/constants";
 import { useFilterContext } from "../../context/filterContext";
 
 const Filter = () => {
-  const { categories } = useDataContext();
+  const { categories, drawer, setDrawer } = useDataContext();
   const { appliedFilters, filterDispatch } = useFilterContext();
   const ratings = [1, 2, 3, 4];
 
@@ -39,14 +39,26 @@ const Filter = () => {
 
   const handleClearFilters = () => {
     filterDispatch({ type: TYPE.CLEAR_FILTERS });
+    setDrawer(false);
   };
 
+  const handlerCloseFitlers = () => {
+    setDrawer(false);
+  };
+
+  useEffect(() => () => setDrawer(false), [setDrawer]);
+
   return (
-    <aside className="filter-container">
+    <aside
+      className={`filter-container ${drawer ? "show-filter" : "hide-filter"}`}
+    >
       <div className="filter-head">
         <div>
           <h4>Filters</h4>
         </div>
+        <button className="filter-apply-btn" onClick={handlerCloseFitlers}>
+          Apply
+        </button>
         <button className="filter-clear-btn" onClick={handleClearFilters}>
           Clear
         </button>
@@ -74,7 +86,7 @@ const Filter = () => {
       <div className="filter-category">
         <h4>Category</h4>
         <ul className="category-list flex-gap">
-          {categories.map(({ _id, categoryName }) => {
+          {categories.map(({ _id, categoryName, categoryTitle }) => {
             return (
               <li key={_id} className="category-list__item">
                 <input
@@ -87,7 +99,7 @@ const Filter = () => {
                   )}
                   onChange={handleCategoryFilter}
                 />
-                <label htmlFor={categoryName}>{categoryName}</label>
+                <label htmlFor={categoryName}>{categoryTitle}</label>
               </li>
             );
           })}
@@ -108,7 +120,9 @@ const Filter = () => {
                   checked={rating === +appliedFilters.filterByRating}
                   onChange={handleRatingFilter}
                 />
-                <label htmlFor={rating}>{rating} stars & above</label>
+                <label htmlFor={rating}>
+                  {rating} {`star${rating !== 1 ? "s" : ""}`} & above
+                </label>
               </li>
             );
           })}

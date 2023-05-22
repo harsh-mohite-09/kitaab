@@ -14,7 +14,7 @@ import { isProductInCart, isProductInWishlist } from "../../utils/productUtils";
 const ProductsCard = ({ product }) => {
   const { _id: productId, img, name, price } = product;
   const { token } = useAuthContext();
-  const { dataDispatch, cart, wishlist } = useDataContext();
+  const { dataDispatch, cart, wishlist, drawer } = useDataContext();
   const navigate = useNavigate();
 
   const isInCart = isProductInCart(cart, productId);
@@ -35,6 +35,7 @@ const ProductsCard = ({ product }) => {
 
   const addToWishlistHandler = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     if (token) {
       if (isInWishlilst) {
         removeFromWishlist(dataDispatch, productId, token);
@@ -47,8 +48,11 @@ const ProductsCard = ({ product }) => {
   };
 
   return (
-    <div className="product-card">
-      <div className="product-card__image">
+    <div className={`product-card ${drawer ? "disabled-click" : ""}`}>
+      <div
+        className="product-card__image"
+        onClick={() => navigate(`/products/${product._id}`)}
+      >
         <img src={img} alt="product" />
         <div
           className={`product_card__wishlist-icon ${

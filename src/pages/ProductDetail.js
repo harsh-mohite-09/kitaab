@@ -21,8 +21,8 @@ const ProductDetailPage = () => {
   const isInWishlilst = isProductInWishlist(wishlist, productId);
 
   useEffect(() => {
-    getProduct(productId, setProduct);
-  }, [productId]);
+    getProduct(productId, setProduct, setLoader);
+  }, [productId, setLoader]);
 
   const addToCartHandler = (e) => {
     e.preventDefault();
@@ -49,12 +49,6 @@ const ProductDetailPage = () => {
       navigate("/login");
     }
   };
-
-  if (!product) {
-    setLoader(true);
-  } else {
-    setLoader(false);
-  }
 
   if (!product) {
     return (

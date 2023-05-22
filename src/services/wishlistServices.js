@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TYPE } from "../utils/constants";
+import { TYPE, TOAST_CONFIG } from "../utils/constants";
 import { toast } from "react-toastify";
 
 export const addToWishlist = async (dataDispatch, product, token) => {
@@ -16,16 +16,7 @@ export const addToWishlist = async (dataDispatch, product, token) => {
       }
     );
 
-    toast.success("Added To Wishlist", {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    toast.success("Added To Wishlist", TOAST_CONFIG);
 
     console.log(response.data.wishlist);
 
@@ -52,16 +43,7 @@ export const removeFromWishlist = async (
     });
 
     if (!isClearing) {
-      toast.warn("Removed From Wishlist", {
-        position: "bottom-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toast.warn("Removed From Wishlist", TOAST_CONFIG);
     }
 
     console.log(response.data.wishlist);

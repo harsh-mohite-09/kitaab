@@ -46,9 +46,9 @@ const AddressList = ({
 
   return (
     <div className="checkout-container__address">
-      <h3>
-        {addresses.length > 0 && !isAddressPage && "Choose a delivery Address"}
-      </h3>
+      {addresses.length > 0 && !isAddressPage && (
+        <h3>Choose a delivery Address</h3>
+      )}
       {!isEditing &&
         addresses.map((address) => {
           const { id, name, phone, city, state, pin, addressText } = address;
