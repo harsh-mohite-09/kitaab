@@ -82,6 +82,9 @@ const SignupPage = () => {
       if (error.response.status === 422) {
         toast.error("User Already Exists!", TOAST_CONFIG);
       }
+      if (error.response.status === 500) {
+        toast.error(error.response.statusText, TOAST_CONFIG);
+      }
       setLoader(false);
       setUserConfig({
         firstName: "",
