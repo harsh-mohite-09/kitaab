@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TYPE } from "../utils/constants";
+import { TYPE, TOAST_CONFIG } from "../utils/constants";
 import { toast } from "react-toastify";
 
 export const addToCart = async (dataDispatch, product, token) => {
@@ -16,16 +16,7 @@ export const addToCart = async (dataDispatch, product, token) => {
       }
     );
 
-    toast.success("Added To Cart", {
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    toast.success("Added To Cart", TOAST_CONFIG);
 
     dataDispatch({ type: TYPE.ADD_TO_CART, payload: response.data.cart });
   } catch (error) {
@@ -47,16 +38,7 @@ export const removeFromCart = async (
     });
 
     if (!isClearing) {
-      toast.warn("Removed From Cart", {
-        position: "bottom-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toast.warn("Removed From Cart", TOAST_CONFIG);
     }
 
     console.log(response.data.cart);

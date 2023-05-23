@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { v4 as uuid } from "uuid";
 import AddressForm from "./AddressForm";
 import { useDataContext } from "../../context/dataContext";
-import { TYPE } from "../../utils/constants";
+import { TOAST_CONFIG, TYPE } from "../../utils/constants";
 import { toast } from "react-toastify";
 
 const AddressList = ({
@@ -28,16 +28,7 @@ const AddressList = ({
 
   const addressDeleteHandler = (addressId) => {
     dataDispatch({ type: TYPE.DELETE_ADDRESS, payload: addressId });
-    toast.error("Deleted Address", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    toast.error("Deleted Address", TOAST_CONFIG);
   };
 
   const addressEditHandler = (address) => {
@@ -46,9 +37,9 @@ const AddressList = ({
 
   return (
     <div className="checkout-container__address">
-      <h3>
-        {addresses.length > 0 && !isAddressPage && "Choose a delivery Address"}
-      </h3>
+      {addresses.length > 0 && !isAddressPage && (
+        <h3>Choose a delivery Address</h3>
+      )}
       {!isEditing &&
         addresses.map((address) => {
           const { id, name, phone, city, state, pin, addressText } = address;
@@ -83,10 +74,10 @@ const AddressList = ({
                         setIsEditing(true);
                       }}
                     >
-                      Edit
+                      EDIT
                     </button>
                     <button onClick={() => addressDeleteHandler(id)}>
-                      Delete
+                      DELETE
                     </button>
                   </div>
                 )}

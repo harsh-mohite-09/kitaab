@@ -14,6 +14,7 @@ const DataContext = createContext();
 const DataProvider = ({ children }) => {
   const [state, dispatch] = useReducer(dataReducer, dataInitialState);
   const [loader, setLoader] = useState(false);
+  const [drawer, setDrawer] = useState(false);
 
   useEffect(() => {
     loadCategories();
@@ -24,9 +25,9 @@ const DataProvider = ({ children }) => {
     try {
       setLoader(true);
       const res = await axios.get("/api/categories");
-      setTimeout(() => {
-        setLoader(false);
-      }, 1000);
+
+      setLoader(false);
+
       dispatch({
         type: TYPE.LOAD_CATEGORIES,
         payload: res.data.categories,
@@ -63,6 +64,8 @@ const DataProvider = ({ children }) => {
         dataDispatch: dispatch,
         loader,
         setLoader,
+        drawer,
+        setDrawer,
       }}
     >
       {children}

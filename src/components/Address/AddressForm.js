@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { TOAST_CONFIG } from "../../utils/constants";
 
 const AddressForm = ({
   setFormDisplay,
@@ -72,35 +73,17 @@ const AddressForm = ({
     if (editingForm) {
       onFormEdit(newAddress);
       setIsEditing(false);
-      toast.success("Updated Address", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toast.success("Updated Address", TOAST_CONFIG);
     } else {
       onFormSubmit(newAddress);
       setFormDisplay(false);
-      toast.success("New Address Added", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toast.success("New Address Added", TOAST_CONFIG);
     }
   };
 
   return (
     <div className="address-form-container">
-      <h4>Add new address</h4>
+      <h4>{editingForm ? "Edit Address" : "Add New Address"}</h4>
       <form onSubmit={addressFormSubmitHandler} className="address-form">
         <div>
           <input
@@ -162,7 +145,20 @@ const AddressForm = ({
             required
           />
         </div>
-        <button>Save Address</button>
+        <div className="address-form-btn-group">
+          <button>SAVE</button>
+
+          {!editingForm && (
+            <button type="button" onClick={() => setFormDisplay(false)}>
+              CANCEL
+            </button>
+          )}
+          {editingForm && (
+            <button type="button" onClick={() => setIsEditing(false)}>
+              CANCEL
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );

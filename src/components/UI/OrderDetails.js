@@ -8,13 +8,29 @@ const OrderDetails = ({ cart }) => {
 
   return (
     <div className="cart-order-details-container">
-      <h2>Order Details</h2>
-      <p>
-        Price({cart.length} items): {totalPrice}
+      <h2 className="order-title">Order Details</h2>
+      <div className="order-details__row">
+        <p>
+          <b>Price({cart.length} items) :</b>
+        </p>
+        <p className="order-price">₹ {totalPrice}</p>
+      </div>
+      <div className="order-details__row">
+        <p>
+          <b>Discount : </b>
+        </p>
+        <p className="order-price">- 20%</p>
+      </div>
+      <div className="order-details__row">
+        <p>
+          <b>Total Price :</b>{" "}
+        </p>
+        <p className="order-price">₹ {discountedPrice.toFixed()}</p>
+      </div>
+      <hr />
+      <p className="text-style">
+        You will save Rs. {totalDiscount.toFixed()} on this order{" "}
       </p>
-      <p>Discount: -20%</p>
-      <p>Total Price: {discountedPrice.toFixed()}</p>
-      <p>You will save Rs. {totalDiscount.toFixed()} on this order </p>
       <Link to="/checkout">
         <button className="checkout-btn">Checkout</button>
       </Link>

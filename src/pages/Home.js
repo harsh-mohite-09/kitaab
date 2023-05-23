@@ -24,12 +24,14 @@ const HomePage = () => {
         <section className="home-container">
           <div className="home-container__info">
             <div className="info-header">
-              <p>Welcome to Kitaab.</p>
-              <h1>One stop solution for your reading needs.</h1>
+              <h1 className="info-header__greeting">Welcome to Kitaab</h1>
+              <p className="info-header__title">
+                One stop solution for your reading needs.
+              </p>
             </div>
-            <button className="shop-btn">
-              <Link to="/products">Shop Now</Link>
-            </button>
+            <Link to="/products">
+              <button className="shop-btn">Shop Now</button>
+            </Link>
           </div>
           <div className="books-img">
             <img src={books} alt="" />

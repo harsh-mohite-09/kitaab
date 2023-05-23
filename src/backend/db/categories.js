@@ -9,19 +9,22 @@ export const categories = [
   {
     _id: uuid(),
     categoryName: "fiction",
+    categoryTitle: "Fiction",
     description:
-      "literature in the form of prose, especially novels, that describes imaginary events and people",
+      "Explore the world of imagination and storytelling with our collection of fictional books",
   },
   {
     _id: uuid(),
     categoryName: "non-fiction",
+    categoryTitle: "Non-Fiction",
     description:
-      "Non-fiction is writing that gives information or describes real events, rather than telling a story.",
+      "Discover real-life stories, knowledge, and facts with our extensive non-fiction book collection",
   },
   {
     _id: uuid(),
     categoryName: "self-help",
+    categoryTitle: "Self Help",
     description:
-      "Meant to cause discomfort and fear for both the character and readers.",
+      "Find inspiration, guidance, and personal growth through our selection of self-help books",
   },
 ];

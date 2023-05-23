@@ -1,29 +1,38 @@
 import React from "react";
 import ProductsCard from "./UI/ProductsCard";
-import { Link } from "react-router-dom";
 import { useDataContext } from "../context/dataContext";
 
 const ProductsContainer = ({ products }) => {
-  const { loader } = useDataContext();
+  const { loader, drawer, setDrawer } = useDataContext();
+
+  const showFilterHandler = () => {
+    setDrawer(true);
+  };
+
   return loader ? (
     <section className="products-container">
       <h2 className="products-loading">Loading Products...</h2>
     </section>
   ) : (
-    <section className="products-container">
+    <section
+      className="products-container"
+      onClick={() => drawer && setDrawer(!drawer)}
+    >
       {products.length > 0 ? (
         <>
           <div className="products-header">
-            <h1>Showing all products</h1>
-            <span>(Showing {products.length} products)</span>
+            <button className="show-filter-btn" onClick={showFilterHandler}>
+              Filters
+            </button>
+            <div className="products-header__text">
+              <h1>Showing all products</h1>
+              <span>({products.length})</span>
+            </div>
           </div>
+
           <div className="products-items">
             {products.map((product) => {
-              return (
-                <Link to={product._id} key={product._id}>
-                  <ProductsCard product={product} />
-                </Link>
-              );
+              return <ProductsCard product={product} key={product._id} />;
             })}
           </div>
         </>
@@ -32,6 +41,10 @@ const ProductsContainer = ({ products }) => {
           ❌ No Products Found for applied filters
         </p>
       )}
+      <div
+        className={drawer ? "products-container-overlay" : ""}
+        onClick={() => setDrawer(false)}
+      ></div>
     </section>
   );
 };
