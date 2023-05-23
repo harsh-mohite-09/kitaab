@@ -35,8 +35,17 @@ const CartPage = () => {
         <div className="cart-main-container">
           <div className="cart-items-container">
             {cart.map((product) => {
-              const { img, name, price, _id: productId, qty } = product;
+              const {
+                img,
+                name,
+                rating,
+                price,
+                _id: productId,
+                qty,
+                originalPrice,
+              } = product;
               const isInWishlilst = isProductInWishlist(wishlist, productId);
+              const discount = ((originalPrice - price) / originalPrice) * 100;
               return (
                 <div className="cart-product-card" key={productId}>
                   <div className="cart-product__details">
@@ -44,15 +53,44 @@ const CartPage = () => {
                       <img src={img} alt="product" />
                     </div>
                     <div className="cart-product__info">
-                      <div>
-                        <p>{name}</p>
-                        <p>
-                          <b>₹{price}</b>
+                      <div className="product-detail__info-header">
+                        <h2 className="product-detail__info-header_name">
+                          {name}
+                        </h2>
+                        <span className="product-detail__info-header-rating">
+                          {rating.toFixed(1)}
+                          <div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1em"
+                              height="1em"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fill="currentColor"
+                                d="m5.825 22l1.625-7.025L2 10.25l7.2-.625L12 3l2.8 6.625l7.2.625l-5.45 4.725L18.175 22L12 18.275L5.825 22Z"
+                              ></path>
+                            </svg>
+                          </div>
+                        </span>
+                      </div>
+                      <div className="product-detail__info-price">
+                        <div className="product-detail__info-price-main">
+                          <p className="product-detail__info-price__final">
+                            ₹{price}
+                          </p>
+                          <p className="product-detail__info-price__original">
+                            ₹{originalPrice}
+                          </p>
+                        </div>
+                        <p className="product-detail__info-price__discount">
+                          {discount.toFixed()}% OFF
                         </p>
                       </div>
                       <div className="cart-product__qty">
                         <button
                           className="cart-product__qty-btn"
+                          disabled={qty === 1}
                           onClick={() =>
                             updateQtyInCartHandler(productId, "DECREMENT", qty)
                           }
@@ -69,24 +107,24 @@ const CartPage = () => {
                           +
                         </button>
                       </div>
+                      <div className="cart-product__btn-group">
+                        <button
+                          className="cart-product__btn remove-btn"
+                          onClick={() => removeFromCartHandler(productId)}
+                        >
+                          Remove
+                        </button>
+                        <button
+                          className="cart-product__btn add-btn"
+                          onClick={() => addToWishlistHandler(product)}
+                          disabled={isInWishlilst}
+                        >
+                          {isInWishlilst
+                            ? "Already in Wishlist"
+                            : "Add to Wishlist"}
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div className="cart-prodcut__btn-group">
-                    <button
-                      className="cart-product__btn"
-                      onClick={() => removeFromCartHandler(productId)}
-                    >
-                      Remove
-                    </button>
-                    <button
-                      className="cart-product__btn"
-                      onClick={() => addToWishlistHandler(product)}
-                      disabled={isInWishlilst}
-                    >
-                      {isInWishlilst
-                        ? "Already in Wishlist"
-                        : "Add to Wishlist"}
-                    </button>
                   </div>
                 </div>
               );

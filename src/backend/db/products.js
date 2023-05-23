@@ -13,9 +13,11 @@ export const products = [
     author: "Ankur Warikoo",
     price: 219,
     originalPrice: 399,
-    isBestSeller: true,
     category: "self-help",
     rating: 4.6,
+    pages: 312,
+    delivery: 2,
+    categoryTitle: "Self Help",
   },
   {
     _id: uuid(),
@@ -27,6 +29,9 @@ export const products = [
     isBestSeller: false,
     category: "self-help",
     rating: 4,
+    pages: 80,
+    delivery: 3,
+    categoryTitle: "Self Help",
   },
 
   {
@@ -39,6 +44,9 @@ export const products = [
     isBestSeller: false,
     category: "fiction",
     rating: 2,
+    pages: 224,
+    delivery: 3,
+    categoryTitle: "Fiction",
   },
   {
     _id: uuid(),
@@ -50,6 +58,9 @@ export const products = [
     isBestSeller: true,
     category: "self-help",
     rating: 4.8,
+    pages: 320,
+    delivery: 1,
+    categoryTitle: "Self Help",
   },
 
   {
@@ -61,7 +72,10 @@ export const products = [
     originalPrice: 1500,
     isBestSeller: false,
     category: "non-fiction",
-    rating: 4,
+    rating: 4.6,
+    pages: 208,
+    delivery: 1,
+    categoryTitle: "Non-Fiction",
   },
   {
     _id: uuid(),
@@ -73,6 +87,9 @@ export const products = [
     isBestSeller: false,
     category: "non-fiction",
     rating: 2,
+    pages: 336,
+    delivery: 3,
+    categoryTitle: "Non-Fiction",
   },
   {
     _id: uuid(),
@@ -84,6 +101,9 @@ export const products = [
     isBestSeller: false,
     category: "non-fiction",
     rating: 3,
+    pages: 198,
+    delivery: 1,
+    categoryTitle: "Non-Fiction",
   },
   {
     _id: uuid(),
@@ -94,7 +114,10 @@ export const products = [
     originalPrice: 195,
     isBestSeller: false,
     category: "fiction",
-    rating: 3,
+    rating: 3.2,
+    pages: 250,
+    delivery: 4,
+    categoryTitle: "Fiction",
   },
   {
     _id: uuid(),
@@ -106,6 +129,9 @@ export const products = [
     isBestSeller: false,
     category: "fiction",
     rating: 2.5,
+    pages: 176,
+    delivery: 1,
+    categoryTitle: "Fiction",
   },
   {
     _id: uuid(),
@@ -117,6 +143,9 @@ export const products = [
     isBestSeller: false,
     category: "self-help",
     rating: 4,
+    pages: 356,
+    delivery: 5,
+    categoryTitle: "Self Help",
   },
   {
     _id: uuid(),
@@ -128,16 +157,8 @@ export const products = [
     isBestSeller: false,
     category: "self-help",
     rating: 3.5,
-  },
-  {
-    _id: uuid(),
-    img: "https://rukminim1.flixcart.com/image/612/612/kufuikw0/book/p/3/d/man-s-search-for-meaning-original-imag7kerxrpweqj9.jpeg?q=70",
-    name: "Man's Search For Meaning",
-    author: "Franky Viktor",
-    price: 243,
-    originalPrice: 349,
-    isBestSeller: false,
-    category: "non-fiction",
-    rating: 1,
+    pages: 144,
+    delivery: 1,
+    categoryTitle: "Self Help",
   },
 ];

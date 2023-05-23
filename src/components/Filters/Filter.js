@@ -42,9 +42,9 @@ const Filter = () => {
     setDrawer(false);
   };
 
-  const handlerCloseFitlers = () => {
-    setDrawer(false);
-  };
+  // const handlerCloseFitlers = () => {
+  //   setDrawer(false);
+  // };
 
   useEffect(() => () => setDrawer(false), [setDrawer]);
 
@@ -56,9 +56,9 @@ const Filter = () => {
         <div>
           <h4>Filters</h4>
         </div>
-        <button className="filter-apply-btn" onClick={handlerCloseFitlers}>
+        {/* <button className="filter-apply-btn" onClick={handlerCloseFitlers}>
           Apply
-        </button>
+        </button> */}
         <button className="filter-clear-btn" onClick={handleClearFilters}>
           Clear
         </button>

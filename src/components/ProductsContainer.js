@@ -21,17 +21,18 @@ const ProductsContainer = ({ products }) => {
       {products.length > 0 ? (
         <>
           <div className="products-header">
-            <h1>Showing all products</h1>
-            <span>({products.length})</span>
+            <button className="show-filter-btn" onClick={showFilterHandler}>
+              Filters
+            </button>
+            <div className="products-header__text">
+              <h1>Showing all products</h1>
+              <span>({products.length})</span>
+            </div>
           </div>
-
-          <button className="show-filter-btn" onClick={showFilterHandler}>
-            Filters
-          </button>
 
           <div className="products-items">
             {products.map((product) => {
-              return <ProductsCard product={product} />;
+              return <ProductsCard product={product} key={product._id} />;
             })}
           </div>
         </>

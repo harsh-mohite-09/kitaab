@@ -50,10 +50,12 @@ const UserProfilePage = () => {
                 <button className="addresses_btn">Manage Addresses</button>
               </Link>
             </div>
-            <p>
-              Name: {activeUser.firstName} {activeUser.lastName}
-            </p>
-            <p>Email: {activeUser.email} </p>
+            <div className="user-profile-card__details-main">
+              <p>
+                Name: {activeUser.firstName} {activeUser.lastName}
+              </p>
+              <p>Email: {activeUser.email} </p>
+            </div>
           </div>
           <button className="logout-btn" onClick={logoutHandler}>
             Logout
