@@ -22,7 +22,7 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
-  const [loginError, setLoginError] = useState(null);
+  const [loginError] = useState(null);
 
   const emailInputHandler = (e) => {
     setUserConfig((prev) => ({
