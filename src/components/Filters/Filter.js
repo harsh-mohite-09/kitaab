@@ -42,10 +42,6 @@ const Filter = () => {
     setDrawer(false);
   };
 
-  // const handlerCloseFitlers = () => {
-  //   setDrawer(false);
-  // };
-
   useEffect(() => () => setDrawer(false), [setDrawer]);
 
   return (
@@ -53,8 +49,8 @@ const Filter = () => {
       className={`filter-container ${drawer ? "show-filter" : "hide-filter"}`}
     >
       <div className="filter-head">
-        <div>
-          <h4>Filters</h4>
+        <div onClick={() => setDrawer(false)}>
+          <h4>{drawer ? "⬅️" : ""}Filters</h4>
         </div>
         {/* <button className="filter-apply-btn" onClick={handlerCloseFitlers}>
           Apply
