@@ -90,7 +90,8 @@ const LoginPage = () => {
         navigate("/");
       }
     } catch (error) {
-      setLoginError(error.response.statusText);
+      toast.error("User " + error.response.statusText, TOAST_CONFIG);
+      setLoader(false);
     }
   };
 
