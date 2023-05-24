@@ -22,7 +22,6 @@ const ProductsCard = ({ product }) => {
   const discount = ((originalPrice - price) / originalPrice) * 100;
 
   const addToCartHandler = (e) => {
-    e.preventDefault();
     if (token) {
       if (isInCart) {
         navigate("/cart");
@@ -34,10 +33,7 @@ const ProductsCard = ({ product }) => {
     }
   };
 
-  const trimmedName = name.length > 19 ? name.slice(0, 19) + "..." : name;
-
   const addToWishlistHandler = (e) => {
-    e.preventDefault();
     e.stopPropagation();
     if (token) {
       if (isInWishlilst) {
@@ -49,6 +45,8 @@ const ProductsCard = ({ product }) => {
       navigate("/login");
     }
   };
+
+  const trimmedName = name.length > 19 ? name.slice(0, 19) + "..." : name;
 
   return (
     <div className={`product-card ${drawer ? "disabled-click" : ""}`}>

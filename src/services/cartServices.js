@@ -24,12 +24,7 @@ export const addToCart = async (dataDispatch, product, token) => {
   }
 };
 
-export const removeFromCart = async (
-  dataDispatch,
-  productId,
-  token,
-  isClearing
-) => {
+export const removeFromCart = async (dataDispatch, productId, token) => {
   try {
     const response = await axios.delete(`/api/user/cart/${productId}`, {
       headers: {
@@ -37,11 +32,7 @@ export const removeFromCart = async (
       },
     });
 
-    if (!isClearing) {
-      toast.warn("Removed From Cart", TOAST_CONFIG);
-    }
-
-    console.log(response.data.cart);
+    toast.warn("Removed From Cart", TOAST_CONFIG);
 
     dataDispatch({ type: TYPE.REMOVE_FROM_CART, payload: response.data.cart });
   } catch (error) {
@@ -69,8 +60,6 @@ export const updateQtyInCart = async (
         },
       }
     );
-
-    console.log(response.data.cart);
 
     dataDispatch({
       type: TYPE.UPDATE_QTY_IN_CART,

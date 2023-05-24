@@ -33,6 +33,19 @@ export const filterReducer = (state, action) => {
       };
     }
 
+    case TYPE.FILTER_BY_CATEGORIES:
+      return state.filterByCategories.includes(action.payload)
+        ? {
+            ...state,
+            filterByCategories: state.filterByCategories.filter(
+              (item) => item !== action.payload
+            ),
+          }
+        : {
+            ...state,
+            filterByCategories: [...state.filterByCategories, action.payload],
+          };
+
     case TYPE.FILTER_BY_PRICE_RANGE: {
       return {
         ...state,

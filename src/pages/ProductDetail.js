@@ -7,7 +7,11 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "../services/wishlistServices";
-import { isProductInCart, isProductInWishlist } from "../utils/productUtils";
+import {
+  isProductInCart,
+  isProductInWishlist,
+  getDiscountPercent,
+} from "../utils/productUtils";
 import { getProduct } from "../services/productDetailService";
 
 const ProductDetailPage = () => {
@@ -24,8 +28,7 @@ const ProductDetailPage = () => {
     getProduct(productId, setProduct, setLoader);
   }, [productId, setLoader]);
 
-  const addToCartHandler = (e) => {
-    e.preventDefault();
+  const addToCartHandler = () => {
     if (token) {
       if (isInCart) {
         navigate("/cart");
@@ -37,8 +40,7 @@ const ProductDetailPage = () => {
     }
   };
 
-  const addToWishlistHandler = (e) => {
-    e.preventDefault();
+  const addToWishlistHandler = () => {
     if (token) {
       if (isInWishlilst) {
         removeFromWishlist(dataDispatch, productId, token);
@@ -69,7 +71,7 @@ const ProductDetailPage = () => {
     pages,
     delivery,
   } = product;
-  const discount = ((originalPrice - price) / originalPrice) * 100;
+  const discount = getDiscountPercent(originalPrice, price);
   return (
     <main className="product-detail-page">
       <div className="product-detail-card">

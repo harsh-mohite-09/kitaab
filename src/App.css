@@ -717,6 +717,7 @@ input[type="range"] {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  flex-grow: 1;
 }
 
 .cart-product__btn-group {
@@ -728,7 +729,6 @@ input[type="range"] {
   flex-grow: 1;
   padding: 0.4rem;
   font-size: 1rem;
-  cursor: pointer;
   transition: all 0.1s linear;
 }
 
@@ -742,6 +742,10 @@ input[type="range"] {
   background-color: var(--accent-color);
   color: white;
   cursor: pointer;
+}
+
+.disabled-btn:hover {
+  cursor: not-allowed;
 }
 
 .cart-product__qty {

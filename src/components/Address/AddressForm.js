@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { TOAST_CONFIG } from "../../utils/constants";
 
 const AddressForm = ({
   setFormDisplay,
@@ -25,46 +23,11 @@ const AddressForm = ({
     }
   }, [editingAddress]);
 
-  const usernameChangeHandler = (e) => {
-    setNewAddress({
-      ...newAddress,
-      name: e.target.value,
-    });
-  };
-
-  const phoneChangeHandler = (e) => {
-    setNewAddress({
-      ...newAddress,
-      phone: e.target.value,
-    });
-  };
-
-  const addressTextChangeHandler = (e) => {
-    setNewAddress({
-      ...newAddress,
-      addressText: e.target.value,
-    });
-  };
-
-  const cityChangeHandler = (e) => {
-    setNewAddress({
-      ...newAddress,
-      city: e.target.value,
-    });
-  };
-
-  const stateChangeHandler = (e) => {
-    setNewAddress({
-      ...newAddress,
-      state: e.target.value,
-    });
-  };
-
-  const pinChangeHandler = (e) => {
-    setNewAddress({
-      ...newAddress,
-      pin: e.target.value,
-    });
+  const inputHandler = (e, inputName) => {
+    setNewAddress((prev) => ({
+      ...prev,
+      [inputName]: e.target.value,
+    }));
   };
 
   const addressFormSubmitHandler = (e) => {
@@ -73,11 +36,9 @@ const AddressForm = ({
     if (editingForm) {
       onFormEdit(newAddress);
       setIsEditing(false);
-      toast.success("Updated Address", TOAST_CONFIG);
     } else {
       onFormSubmit(newAddress);
       setFormDisplay(false);
-      toast.success("New Address Added", TOAST_CONFIG);
     }
   };
 
@@ -91,7 +52,7 @@ const AddressForm = ({
             id="username"
             value={newAddress.name}
             placeholder="Enter Name"
-            onChange={usernameChangeHandler}
+            onChange={(e) => inputHandler(e, "name")}
             required
           />
         </div>
@@ -101,7 +62,7 @@ const AddressForm = ({
             id="addressText"
             placeholder="Enter Address"
             value={newAddress.addressText}
-            onChange={addressTextChangeHandler}
+            onChange={(e) => inputHandler(e, "addressText")}
             required
           />
         </div>
@@ -111,7 +72,7 @@ const AddressForm = ({
             id="city"
             value={newAddress.city}
             placeholder="Enter City"
-            onChange={cityChangeHandler}
+            onChange={(e) => inputHandler(e, "city")}
             required
           />
         </div>
@@ -121,7 +82,7 @@ const AddressForm = ({
             id="state"
             value={newAddress.state}
             placeholder="Enter State"
-            onChange={stateChangeHandler}
+            onChange={(e) => inputHandler(e, "state")}
             required
           />
         </div>
@@ -131,7 +92,7 @@ const AddressForm = ({
             id="pin"
             value={newAddress.pin}
             placeholder="Enter Pincode"
-            onChange={pinChangeHandler}
+            onChange={(e) => inputHandler(e, "pin")}
             required
           />
         </div>
@@ -141,7 +102,7 @@ const AddressForm = ({
             id="phone"
             value={newAddress.phone}
             placeholder="Enter Phone Number"
-            onChange={phoneChangeHandler}
+            onChange={(e) => inputHandler(e, "phone")}
             required
           />
         </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import Filter from "../components/Filters/Filter";
-import ProductsContainer from "../components/ProductsContainer";
+import ProductsContainer from "../components/UI/ProductsContainer";
 import { useDataContext } from "../context/dataContext";
 import { useFilterContext } from "../context/filterContext";
 import { getFilteredProducts } from "../utils/getFilteredProducts";

@@ -1,6 +1,6 @@
 import React from "react";
-import ProductsCard from "./UI/ProductsCard";
-import { useDataContext } from "../context/dataContext";
+import ProductsCard from "./ProductsCard";
+import { useDataContext } from "../../context/dataContext";
 
 const ProductsContainer = ({ products }) => {
   const { loader, drawer, setDrawer } = useDataContext();

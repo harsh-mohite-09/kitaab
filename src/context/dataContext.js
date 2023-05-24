@@ -6,52 +6,43 @@ import {
   useState,
 } from "react";
 import { dataInitialState, dataReducer } from "../reducer/DataReducer";
+import { useAuthContext } from "./authContext";
+import { loadCategories, loadProducts } from "../services/onLoadService";
 import { TYPE } from "../utils/constants";
-import axios from "axios";
 
-const DataContext = createContext();
+const DataContext = createContext({
+  cart: [],
+  wishlist: [],
+  categories: [],
+  products: [],
+  addresses: [],
+  loader: "",
+  drawer: "",
+  dataDispatch: () => {},
+  setLoader: () => {},
+  setDrawer: () => {},
+});
 
 const DataProvider = ({ children }) => {
   const [state, dispatch] = useReducer(dataReducer, dataInitialState);
   const [loader, setLoader] = useState(false);
   const [drawer, setDrawer] = useState(false);
+  const { user } = useAuthContext();
 
   useEffect(() => {
-    loadCategories();
-    loadProducts();
+    loadCategories(setLoader, dispatch);
+    loadProducts(setLoader, dispatch);
   }, []);
 
-  const loadCategories = async () => {
-    try {
-      setLoader(true);
-      const res = await axios.get("/api/categories");
+  // Read authContext comments to understand the reason for using this useEffect below.
+  // Whenever user logs in, dataContext is updated with the cart and wishlist details received in the user data.
 
-      setLoader(false);
-
-      dispatch({
-        type: TYPE.LOAD_CATEGORIES,
-        payload: res.data.categories,
-      });
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (user) {
+      dispatch({ type: TYPE.ADD_TO_CART, payload: user.cart });
+      dispatch({ type: TYPE.ADD_TO_WISHLIST, payload: user.wishlist });
     }
-  };
-
-  const loadProducts = async () => {
-    try {
-      setLoader(true);
-      const res = await axios.get("/api/products");
-      setTimeout(() => {
-        setLoader(false);
-      }, 1000);
-      dispatch({
-        type: TYPE.LOAD_PRODUCTS,
-        payload: res.data.products,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  }, [user]);
 
   return (
     <DataContext.Provider

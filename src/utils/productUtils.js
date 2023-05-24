@@ -6,4 +6,7 @@ const isProductInWishlist = (wishlist, productId) => {
   return wishlist.some((product) => product._id === productId);
 };
 
-export { isProductInCart, isProductInWishlist };
+const getDiscountPercent = (originalPrice, price) =>
+  ((originalPrice - price) / originalPrice) * 100;
+
+export { isProductInCart, isProductInWishlist, getDiscountPercent };
