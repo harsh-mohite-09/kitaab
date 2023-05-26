@@ -1094,6 +1094,11 @@ input[type="range"] {
   font-size: 1rem;
 }
 
+.address-radio {
+  position: absolute;
+  right: 1rem;
+}
+
 .address-input-container:hover {
   background-color: ghostwhite;
   cursor: pointer;

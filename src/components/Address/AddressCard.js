@@ -19,6 +19,7 @@ const AddressCard = ({
           value={id}
           checked={addressSelected?.id === id}
           onChange={addressSelectHandler}
+          className="address-radio"
         />
       )}
       <label htmlFor={id} className="address-label">

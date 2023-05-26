@@ -1,12 +1,14 @@
 import React from "react";
 import { useDataContext } from "../../context/dataContext";
 import { toast } from "react-toastify";
+import { useAuthContext } from "../../context/authContext";
 
 const CheckoutDetails = ({ addressSelected }) => {
   const { cart } = useDataContext();
+  const { user } = useAuthContext();
 
   const totalPrice = cart.reduce((acc, { price, qty }) => acc + price * qty, 0);
-  const discountedPrice = totalPrice * 0.8;
+  const discountedPrice = (totalPrice * 0.8).toFixed();
 
   const placeOrderHandler = () => {
     if (!addressSelected) {
@@ -20,6 +22,56 @@ const CheckoutDetails = ({ addressSelected }) => {
         progress: undefined,
         theme: "light",
       });
+    } else {
+      displayRazorpay();
+    }
+  };
+
+  const loadScript = async (url) => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = url;
+
+      script.onload = () => {
+        resolve(true);
+      };
+
+      script.onerror = () => {
+        resolve(false);
+      };
+
+      document.body.appendChild(script);
+    });
+  };
+
+  const displayRazorpay = async () => {
+    if (addressSelected) {
+      const res = await loadScript(
+        "https://checkout.razorpay.com/v1/checkout.js"
+      );
+
+      if (!res) {
+        toast.error("Razorpay SDK failed to load");
+        return;
+      }
+
+      const options = {
+        key: "rzp_test_b8vVacW3snWKQB",
+        amount: discountedPrice * 100,
+        currency: "INR",
+        name: "Kitaab",
+        description: "Thank you for shopping with us",
+        prefill: {
+          name: `${user?.firstName} ${user?.lastName}`,
+          email: user?.email,
+          contact: "9696009211",
+        },
+        theme: {
+          color: "#5644b0",
+        },
+      };
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
     }
   };
 
@@ -55,7 +107,7 @@ const CheckoutDetails = ({ addressSelected }) => {
           </div>
           <div className="flex-row font-bold">
             <p>Total Amount</p>
-            <p>Rs. {discountedPrice.toFixed()}</p>
+            <p>Rs. {discountedPrice}</p>
           </div>
         </div>
       </div>
