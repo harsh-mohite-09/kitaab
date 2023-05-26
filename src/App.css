@@ -890,14 +890,6 @@ input[type="range"] {
   background-color: var(--accent-color);
 }
 
-/* .auth-login {
-  height: 25rem;
-}
-
-.auth-signup {
-  height: 30rem;
-} */
-
 .auth-error {
   font-size: 0.9rem;
   color: red;
@@ -907,6 +899,34 @@ input[type="range"] {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.auth-link {
+  color: var(--primary-color);
+  font-weight: 600;
+  transition: all 0.1s linear;
+}
+
+.auth-link:hover {
+  color: var(--accent-color);
+}
+
+.password-input {
+  position: relative;
+}
+
+.show-password-btn {
+  position: absolute;
+  right: 0.7rem;
+  color: #888888;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.show-password-btn:hover {
+  cursor: pointer;
 }
 
 /* ---------------------USER PROFILE------------------- */
@@ -1370,6 +1390,10 @@ input[type="range"] {
   .auth-form {
     margin-top: 1rem;
     width: 100%;
+  }
+
+  .auth-link {
+    font-size: 0.9rem;
   }
 
   .user-profile-card {

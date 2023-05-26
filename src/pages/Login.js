@@ -86,7 +86,9 @@ const LoginPage = () => {
             </button>
           </div>
         </form>
-        <Link to="/signup">Create New Account</Link>
+        <Link to="/signup" className="auth-link">
+          Create New Account
+        </Link>
       </div>
     </main>
   );

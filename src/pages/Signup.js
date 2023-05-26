@@ -3,12 +3,16 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 import { useDataContext } from "../context/dataContext";
 import { signupUser } from "../services/authServices";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 const SignupPage = () => {
   const { token, setToken, setUser } = useAuthContext();
   const { setLoader } = useDataContext();
   const location = useLocation();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [userConfig, setUserConfig] = useState({
     firstName: "",
     lastName: "",
@@ -71,30 +75,52 @@ const SignupPage = () => {
                 onChange={(e) => inputHandler(e, "email")}
               />
             </div>
-            <div className="auth-input">
+            <div className="auth-input password-input">
               <input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={userConfig.password}
                 placeholder="Enter Password"
                 required
                 onChange={(e) => inputHandler(e, "password")}
               />
+              <div
+                className="show-password-btn"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? (
+                  <FontAwesomeIcon icon={faEye} />
+                ) : (
+                  <FontAwesomeIcon icon={faEyeSlash} />
+                )}
+              </div>
             </div>
-            <div className="auth-input">
+            <div className="auth-input password-input">
               <input
                 id="confirm-password"
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 value={userConfig.confirmPassword}
                 placeholder="Confirm Password"
                 required
                 onChange={(e) => inputHandler(e, "confirmPassword")}
               />
+              <div
+                className="show-password-btn"
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+              >
+                {showConfirmPassword ? (
+                  <FontAwesomeIcon icon={faEye} />
+                ) : (
+                  <FontAwesomeIcon icon={faEyeSlash} />
+                )}
+              </div>
             </div>
           </div>
           <button className="auth-btn">Sign Up</button>
         </form>
-        <Link to="/login">Already have an account? Log in</Link>
+        <Link to="/login" className="auth-link">
+          Already have an account? Log in
+        </Link>
       </div>
     </main>
   );
