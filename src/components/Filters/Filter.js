@@ -45,7 +45,7 @@ const Filter = () => {
             className="slider"
             min="100"
             max="1000"
-            step="100"
+            step="50"
             value={appliedFilters.filterByPriceRange}
             // onChange={handlePriceFilter}
             onChange={(e) => handleFilter(e, TYPE.FILTER_BY_PRICE_RANGE)}
