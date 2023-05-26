@@ -2,6 +2,8 @@ import React from "react";
 import { useDataContext } from "../../context/dataContext";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../../context/authContext";
+import confetti from "canvas-confetti";
+import { TYPE } from "../../utils/constants";
 
 const CheckoutDetails = ({ addressSelected }) => {
   const { cart } = useDataContext();
@@ -25,6 +27,33 @@ const CheckoutDetails = ({ addressSelected }) => {
     } else {
       displayRazorpay();
     }
+  };
+
+  const Popper = () => {
+    var end = Date.now() + 3 * 1000;
+    // go Buckeyes!
+    var colors = ["#392f5a", "#9583cf"];
+
+    (function frame() {
+      confetti({
+        particleCount: 2,
+        angle: 40,
+        spread: 55,
+        origin: { x: 0 },
+        colors: colors,
+      });
+      confetti({
+        particleCount: 2,
+        angle: 140,
+        spread: 55,
+        origin: { x: 1 },
+        colors: colors,
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
   };
 
   const loadScript = async (url) => {
@@ -61,6 +90,10 @@ const CheckoutDetails = ({ addressSelected }) => {
         currency: "INR",
         name: "Kitaab",
         description: "Thank you for shopping with us",
+        handler: function (response) {
+          toast.success("Order Placed Successfully");
+          Popper();
+        },
         prefill: {
           name: `${user?.firstName} ${user?.lastName}`,
           email: user?.email,
