@@ -17,6 +17,7 @@ import { getProduct } from "../services/productDetailService";
 const ProductDetailPage = () => {
   const { id: productId } = useParams();
   const [product, setProduct] = useState(null);
+  const [btnDisabled, setBtnDisabled] = useState(false);
   const { token } = useAuthContext();
   const { dataDispatch, cart, wishlist, setLoader } = useDataContext();
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const ProductDetailPage = () => {
       if (isInCart) {
         navigate("/cart");
       } else {
-        addToCart(dataDispatch, product, token);
+        addToCart(dataDispatch, product, token, setBtnDisabled);
       }
     } else {
       navigate("/login");
@@ -43,9 +44,9 @@ const ProductDetailPage = () => {
   const addToWishlistHandler = () => {
     if (token) {
       if (isInWishlilst) {
-        removeFromWishlist(dataDispatch, productId, token);
+        removeFromWishlist(dataDispatch, productId, token, setBtnDisabled);
       } else {
-        addToWishlist(dataDispatch, product, token);
+        addToWishlist(dataDispatch, product, token, setBtnDisabled);
       }
     } else {
       navigate("/login");
@@ -143,13 +144,19 @@ const ProductDetailPage = () => {
           <div className="product-detail__btn-group">
             <button
               onClick={addToWishlistHandler}
-              className={isInWishlilst ? `in-wishlist-btn` : undefined}
+              className={`${isInWishlilst ? `in-wishlist-btn` : null} ${
+                btnDisabled ? "disable-btn" : null
+              }`}
+              disabled={btnDisabled}
             >
               {isInWishlilst ? "Remove from wishlist" : "Add to wishlist"}
             </button>
             <button
               onClick={addToCartHandler}
-              className={isInCart ? `in-cart-btn` : undefined}
+              className={`${isInCart ? `in-cart-btn` : null} ${
+                btnDisabled ? "disable-btn" : null
+              }`}
+              disabled={btnDisabled}
             >
               {isInCart ? "Go to Cart" : "Add to Cart"}
             </button>

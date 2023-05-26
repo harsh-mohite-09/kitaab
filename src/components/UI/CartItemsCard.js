@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { isProductInWishlist } from "../../utils/productUtils";
 import { useDataContext } from "../../context/dataContext";
 import { useAuthContext } from "../../context/authContext";
@@ -9,6 +9,7 @@ import { getDiscountPercent } from "../../utils/productUtils";
 const CartItemsCard = ({ product }) => {
   const { wishlist, dataDispatch } = useDataContext();
   const { token } = useAuthContext();
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   const {
     img,
@@ -23,18 +24,24 @@ const CartItemsCard = ({ product }) => {
   const discount = getDiscountPercent(originalPrice, price);
 
   const removeFromCartHandler = (productId) => {
-    removeFromCart(dataDispatch, productId, token);
+    removeFromCart(dataDispatch, productId, token, setBtnDisabled);
   };
 
   const addToWishlistHandler = (product) => {
-    addToWishlist(dataDispatch, product, token);
+    addToWishlist(dataDispatch, product, token, setBtnDisabled);
   };
 
   const updateQtyInCartHandler = (productId, actionType, quantity) => {
     if (quantity === 1) {
-      removeFromCart(dataDispatch, productId, token);
+      removeFromCart(dataDispatch, productId, token, setBtnDisabled);
     } else {
-      updateQtyInCart(dataDispatch, productId, token, actionType);
+      updateQtyInCart(
+        dataDispatch,
+        productId,
+        token,
+        actionType,
+        setBtnDisabled
+      );
     }
   };
 
@@ -78,7 +85,7 @@ const CartItemsCard = ({ product }) => {
           <div className="cart-product__qty">
             <button
               className="cart-product__qty-btn"
-              disabled={qty === 1}
+              disabled={qty === 1 || btnDisabled}
               onClick={() =>
                 updateQtyInCartHandler(productId, "DECREMENT", qty)
               }
@@ -88,6 +95,7 @@ const CartItemsCard = ({ product }) => {
             <span className="cart-product__qty-value">{qty}</span>
             <button
               className="cart-product__qty-btn"
+              disabled={btnDisabled}
               onClick={() => updateQtyInCartHandler(productId, "INCREMENT")}
             >
               +
@@ -97,6 +105,7 @@ const CartItemsCard = ({ product }) => {
             <button
               className="cart-product__btn remove-btn"
               onClick={() => removeFromCartHandler(productId)}
+              disabled={btnDisabled}
             >
               Remove
             </button>
@@ -105,7 +114,7 @@ const CartItemsCard = ({ product }) => {
                 !isInWishlilst ? "add-btn" : "disabled-btn"
               }`}
               onClick={() => addToWishlistHandler(product)}
-              disabled={isInWishlilst}
+              disabled={isInWishlilst || btnDisabled}
             >
               {isInWishlilst ? "Already in Wishlist" : "Add to Wishlist"}
             </button>

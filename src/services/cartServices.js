@@ -2,8 +2,14 @@ import axios from "axios";
 import { TYPE, TOAST_CONFIG } from "../utils/constants";
 import { toast } from "react-toastify";
 
-export const addToCart = async (dataDispatch, product, token) => {
+export const addToCart = async (
+  dataDispatch,
+  product,
+  token,
+  setBtnDisabled
+) => {
   try {
+    setBtnDisabled(true);
     const response = await axios.post(
       "/api/user/cart",
       {
@@ -15,6 +21,7 @@ export const addToCart = async (dataDispatch, product, token) => {
         },
       }
     );
+    setBtnDisabled(false);
 
     toast.success("Added To Cart", TOAST_CONFIG);
 
@@ -24,13 +31,20 @@ export const addToCart = async (dataDispatch, product, token) => {
   }
 };
 
-export const removeFromCart = async (dataDispatch, productId, token) => {
+export const removeFromCart = async (
+  dataDispatch,
+  productId,
+  token,
+  setBtnDisabled
+) => {
   try {
+    setBtnDisabled(true);
     const response = await axios.delete(`/api/user/cart/${productId}`, {
       headers: {
         authorization: token,
       },
     });
+    setBtnDisabled(false);
 
     toast.warn("Removed From Cart", TOAST_CONFIG);
 
@@ -44,9 +58,11 @@ export const updateQtyInCart = async (
   dataDispatch,
   productId,
   token,
-  actionType
+  actionType,
+  setBtnDisabled
 ) => {
   try {
+    setBtnDisabled(true);
     const response = await axios.post(
       `/api/user/cart/${productId}`,
       {
@@ -60,6 +76,7 @@ export const updateQtyInCart = async (
         },
       }
     );
+    setBtnDisabled(false);
 
     dataDispatch({
       type: TYPE.UPDATE_QTY_IN_CART,
