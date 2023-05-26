@@ -1,15 +1,18 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 import { useDataContext } from "../context/dataContext";
-import { toast } from "react-toastify";
-import { TOAST_CONFIG } from "../utils/constants";
+import { signupUser } from "../services/authServices";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 const SignupPage = () => {
   const { token, setToken, setUser } = useAuthContext();
   const { setLoader } = useDataContext();
+  const location = useLocation();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [userConfig, setUserConfig] = useState({
     firstName: "",
     lastName: "",
@@ -17,82 +20,23 @@ const SignupPage = () => {
     password: "",
     confirmPassword: "",
   });
+
   useEffect(() => {
     if (token) {
       navigate("/user_profile");
     }
   }, [token, navigate]);
 
-  const firstNameInputHandler = (e) => {
+  const inputHandler = (e, inputName) => {
     setUserConfig((prev) => ({
       ...prev,
-      firstName: e.target.value,
-    }));
-  };
-
-  const lastNameInputHandler = (e) => {
-    setUserConfig((prev) => ({
-      ...prev,
-      lastName: e.target.value,
-    }));
-  };
-
-  const emailInputHandler = (e) => {
-    setUserConfig((prev) => ({
-      ...prev,
-      email: e.target.value,
-    }));
-  };
-
-  const passwordInputHandler = (e) => {
-    setUserConfig((prev) => ({
-      ...prev,
-      password: e.target.value,
-    }));
-  };
-
-  const confirmPasswordInputHandler = (e) => {
-    setUserConfig((prev) => ({
-      ...prev,
-      confirmPassword: e.target.value,
+      [inputName]: e.target.value,
     }));
   };
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
-
-    if (userConfig.password !== userConfig.confirmPassword) {
-      toast.error("Passwords do not match!");
-      return;
-    }
-
-    try {
-      setLoader(true);
-      const response = await axios.post(`/api/auth/signup`, userConfig);
-      setLoader(false);
-      // saving the encodedToken in the localStorage
-      const token = response.data.encodedToken;
-      const createdUser = response.data.createdUser;
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(createdUser));
-      setToken(token);
-      setUser(JSON.stringify(createdUser));
-      navigate("/");
-    } catch (error) {
-      if (error.response.status === 422) {
-        toast.error("User Already Exists!", TOAST_CONFIG);
-      }
-      if (error.response.status === 500) {
-        toast.error(error.response.statusText, TOAST_CONFIG);
-      }
-      setLoader(false);
-      setUserConfig({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-      });
-    }
+    signupUser(setLoader, setToken, setUser, location, navigate, userConfig);
   };
 
   return (
@@ -108,7 +52,7 @@ const SignupPage = () => {
                 value={userConfig.firstName}
                 placeholder="First Name"
                 required
-                onChange={firstNameInputHandler}
+                onChange={(e) => inputHandler(e, "firstName")}
               />
             </div>
             <div className="auth-input">
@@ -118,7 +62,7 @@ const SignupPage = () => {
                 value={userConfig.lastName}
                 placeholder="Last Name"
                 required
-                onChange={lastNameInputHandler}
+                onChange={(e) => inputHandler(e, "lastName")}
               />
             </div>
             <div className="auth-input">
@@ -128,33 +72,55 @@ const SignupPage = () => {
                 value={userConfig.email}
                 placeholder="Enter Email"
                 required
-                onChange={emailInputHandler}
+                onChange={(e) => inputHandler(e, "email")}
               />
             </div>
-            <div className="auth-input">
+            <div className="auth-input password-input">
               <input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={userConfig.password}
                 placeholder="Enter Password"
                 required
-                onChange={passwordInputHandler}
+                onChange={(e) => inputHandler(e, "password")}
               />
+              <div
+                className="show-password-btn"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? (
+                  <FontAwesomeIcon icon={faEye} />
+                ) : (
+                  <FontAwesomeIcon icon={faEyeSlash} />
+                )}
+              </div>
             </div>
-            <div className="auth-input">
+            <div className="auth-input password-input">
               <input
                 id="confirm-password"
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 value={userConfig.confirmPassword}
                 placeholder="Confirm Password"
                 required
-                onChange={confirmPasswordInputHandler}
+                onChange={(e) => inputHandler(e, "confirmPassword")}
               />
+              <div
+                className="show-password-btn"
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+              >
+                {showConfirmPassword ? (
+                  <FontAwesomeIcon icon={faEye} />
+                ) : (
+                  <FontAwesomeIcon icon={faEyeSlash} />
+                )}
+              </div>
             </div>
           </div>
           <button className="auth-btn">Sign Up</button>
         </form>
-        <Link to="/login">Already have an account? Log in</Link>
+        <Link to="/login" className="auth-link">
+          Already have an account? Log in
+        </Link>
       </div>
     </main>
   );

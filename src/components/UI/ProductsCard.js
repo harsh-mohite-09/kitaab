@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -16,18 +16,31 @@ const ProductsCard = ({ product }) => {
   const { token } = useAuthContext();
   const { dataDispatch, cart, wishlist, drawer } = useDataContext();
   const navigate = useNavigate();
+  const [btnDisabled, setBtnDisabled] = useState(false);
 
   const isInCart = isProductInCart(cart, productId);
   const isInWishlilst = isProductInWishlist(wishlist, productId);
   const discount = ((originalPrice - price) / originalPrice) * 100;
 
   const addToCartHandler = (e) => {
-    e.preventDefault();
     if (token) {
       if (isInCart) {
         navigate("/cart");
       } else {
-        addToCart(dataDispatch, product, token);
+        addToCart(dataDispatch, product, token, setBtnDisabled);
+      }
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const addToWishlistHandler = (e) => {
+    e.stopPropagation();
+    if (token) {
+      if (isInWishlilst) {
+        removeFromWishlist(dataDispatch, productId, token, setBtnDisabled);
+      } else {
+        addToWishlist(dataDispatch, product, token, setBtnDisabled);
       }
     } else {
       navigate("/login");
@@ -36,20 +49,6 @@ const ProductsCard = ({ product }) => {
 
   const trimmedName = name.length > 19 ? name.slice(0, 19) + "..." : name;
 
-  const addToWishlistHandler = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (token) {
-      if (isInWishlilst) {
-        removeFromWishlist(dataDispatch, productId, token);
-      } else {
-        addToWishlist(dataDispatch, product, token);
-      }
-    } else {
-      navigate("/login");
-    }
-  };
-
   return (
     <div className={`product-card ${drawer ? "disabled-click" : ""}`}>
       <div
@@ -57,13 +56,14 @@ const ProductsCard = ({ product }) => {
         onClick={() => navigate(`/products/${product._id}`)}
       >
         <img src={img} alt="product" />
-        <div
+        <button
           className={`product_card__wishlist-icon ${
             isInWishlilst && "in-wishlist-btn"
-          }`}
+          } ${btnDisabled ? "disable-btn" : null}`}
+          disabled={btnDisabled}
         >
           <FontAwesomeIcon icon={faHeart} onClick={addToWishlistHandler} />
-        </div>
+        </button>
       </div>
       <div className="product-card__details">
         <div className="product-card__details-title">
@@ -94,8 +94,11 @@ const ProductsCard = ({ product }) => {
         </div>
       </div>
       <button
-        className={`product-card__btn ${isInCart && "in-cart-btn"}`}
+        className={`product-card__btn ${isInCart && "in-cart-btn"} ${
+          btnDisabled ? "disable-btn" : null
+        }`}
         onClick={addToCartHandler}
+        disabled={btnDisabled}
       >
         {isInCart ? "Go to Cart" : "Add to Cart"}
       </button>

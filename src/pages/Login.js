@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
-import axios from "axios";
 import { useDataContext } from "../context/dataContext";
-import { toast } from "react-toastify";
-import { TOAST_CONFIG } from "../utils/constants";
+import { loginUser } from "../services/authServices";
+
+const testUserConfig = {
+  email: "harsh.mohite009@gmail.com",
+  password: "harsh123",
+};
 
 const LoginPage = () => {
   const { token, setToken, setUser } = useAuthContext();
@@ -12,87 +15,37 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [userConfig, setUserConfig] = useState({
+    email: "",
+    password: "",
+  });
+
   useEffect(() => {
     if (token) {
       navigate("/user_profile");
     }
   }, [token, navigate]);
 
-  const [userConfig, setUserConfig] = useState({
-    email: "",
-    password: "",
-  });
-  const [loginError] = useState(null);
-
-  const emailInputHandler = (e) => {
+  const inputHandler = (e, inputName) => {
     setUserConfig((prev) => ({
       ...prev,
-      email: e.target.value,
+      [inputName]: e.target.value,
     }));
   };
 
-  const passwordInputHandler = (e) => {
-    setUserConfig((prev) => ({
-      ...prev,
-      password: e.target.value,
-    }));
-  };
-
-  const formSubmitHandler = async (e) => {
+  const formSubmitHandler = (e) => {
     e.preventDefault();
-    try {
-      setLoader(true);
-      const response = await axios.post(`/api/auth/login`, userConfig);
-      setLoader(false);
-      const token = response.data.encodedToken;
-      const foundUser = response.data.foundUser;
-
-      // saving the encodedToken in the localStorage
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(foundUser));
-      setToken(token);
-      setUser(JSON.stringify(foundUser));
-      if (location?.state?.from) {
-        navigate(location?.state?.from);
-      } else {
-        navigate("/");
-      }
-    } catch (error) {
-      toast.error("User " + error.response.statusText, TOAST_CONFIG);
-      setLoader(false);
-    }
+    loginUser(setLoader, setToken, setUser, location, navigate, userConfig);
     setUserConfig({
       email: "",
       password: "",
     });
   };
 
-  const guestLoginHandler = async (e) => {
+  const guestLoginHandler = (e) => {
     e.preventDefault();
-    try {
-      setLoader(true);
-      const response = await axios.post(`/api/auth/login`, {
-        email: "harsh.mohite009@gmail.com",
-        password: "harsh123",
-      });
-      setLoader(false);
-      const token = response.data.encodedToken;
-      const foundUser = response.data.foundUser;
-
-      // saving the encodedToken in the localStorage
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(foundUser));
-      setToken(token);
-      setUser(JSON.stringify(foundUser));
-      if (location?.state?.from) {
-        navigate(location?.state?.from);
-      } else {
-        navigate("/");
-      }
-    } catch (error) {
-      toast.error("User " + error.response.statusText, TOAST_CONFIG);
-      setLoader(false);
-    }
+    loginUser(setLoader, setToken, setUser, location, navigate, testUserConfig);
+    setUserConfig(testUserConfig);
   };
 
   return (
@@ -108,7 +61,7 @@ const LoginPage = () => {
                 value={userConfig.email}
                 placeholder="Enter Email"
                 required
-                onChange={emailInputHandler}
+                onChange={(e) => inputHandler(e, "email")}
               />
             </div>
             <div className="auth-input">
@@ -118,7 +71,7 @@ const LoginPage = () => {
                 value={userConfig.password}
                 placeholder="Enter Password"
                 required
-                onChange={passwordInputHandler}
+                onChange={(e) => inputHandler(e, "password")}
               />
             </div>
           </div>
@@ -133,8 +86,9 @@ const LoginPage = () => {
             </button>
           </div>
         </form>
-        {loginError && <p className="auth-error">User {loginError}</p>}
-        <Link to="/signup">Create New Account</Link>
+        <Link to="/signup" className="auth-link">
+          Create New Account
+        </Link>
       </div>
     </main>
   );

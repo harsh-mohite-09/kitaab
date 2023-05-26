@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { v4 as uuid } from "uuid";
-import AddressForm from "./AddressForm";
 import { useDataContext } from "../../context/dataContext";
 import { TOAST_CONFIG, TYPE } from "../../utils/constants";
 import { toast } from "react-toastify";
+import AddressForm from "./AddressForm";
+import AddressCard from "./AddressCard";
 
 const AddressList = ({
   isAddressPage,
@@ -24,6 +25,7 @@ const AddressList = ({
       type: TYPE.ADD_ADDRESS,
       payload: { ...address, id: uuid() },
     });
+    toast.success("New Address Added", TOAST_CONFIG);
   };
 
   const addressDeleteHandler = (addressId) => {
@@ -33,6 +35,7 @@ const AddressList = ({
 
   const addressEditHandler = (address) => {
     dataDispatch({ type: TYPE.EDIT_ADDRESS, payload: address });
+    toast.success("Updated Address", TOAST_CONFIG);
   };
 
   return (
@@ -42,47 +45,17 @@ const AddressList = ({
       )}
       {!isEditing &&
         addresses.map((address) => {
-          const { id, name, phone, city, state, pin, addressText } = address;
           return (
-            <div className="address-input-container" key={id}>
-              {!isAddressPage && (
-                <input
-                  type="radio"
-                  id={id}
-                  value={id}
-                  checked={addressSelected?.id === id}
-                  onChange={addressSelectHandler}
-                />
-              )}
-              <label htmlFor={id} className="address-label">
-                <div className="address-details">
-                  <h4>{name}</h4>
-                  <p>{addressText}</p>
-                  <p>
-                    {city}-{pin}
-                  </p>
-                  <p>{state}</p>
-                  <p>
-                    <b>Phone:</b> {phone}
-                  </p>
-                </div>
-                {isAddressPage && (
-                  <div className="address-manage-btn-group">
-                    <button
-                      onClick={() => {
-                        setEditingAddress(address);
-                        setIsEditing(true);
-                      }}
-                    >
-                      EDIT
-                    </button>
-                    <button onClick={() => addressDeleteHandler(id)}>
-                      DELETE
-                    </button>
-                  </div>
-                )}
-              </label>
-            </div>
+            <AddressCard
+              key={address.id}
+              address={address}
+              isAddressPage={isAddressPage}
+              addressSelected={addressSelected}
+              addressSelectHandler={addressSelectHandler}
+              setEditingAddress={setEditingAddress}
+              setIsEditing={setIsEditing}
+              addressDeleteHandler={addressDeleteHandler}
+            />
           );
         })}
       {isEditing && (

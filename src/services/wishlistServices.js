@@ -2,8 +2,14 @@ import axios from "axios";
 import { TYPE, TOAST_CONFIG } from "../utils/constants";
 import { toast } from "react-toastify";
 
-export const addToWishlist = async (dataDispatch, product, token) => {
+export const addToWishlist = async (
+  dataDispatch,
+  product,
+  token,
+  setBtnDisabled
+) => {
   try {
+    setBtnDisabled(true);
     const response = await axios.post(
       "/api/user/wishlist",
       {
@@ -15,10 +21,9 @@ export const addToWishlist = async (dataDispatch, product, token) => {
         },
       }
     );
+    setBtnDisabled(false);
 
     toast.success("Added To Wishlist", TOAST_CONFIG);
-
-    console.log(response.data.wishlist);
 
     dataDispatch({
       type: TYPE.ADD_TO_WISHLIST,
@@ -33,20 +38,18 @@ export const removeFromWishlist = async (
   dataDispatch,
   productId,
   token,
-  isClearing
+  setBtnDisabled
 ) => {
   try {
+    setBtnDisabled(true);
     const response = await axios.delete(`/api/user/wishlist/${productId}`, {
       headers: {
         authorization: token,
       },
     });
+    setBtnDisabled(false);
 
-    if (!isClearing) {
-      toast.warn("Removed From Wishlist", TOAST_CONFIG);
-    }
-
-    console.log(response.data.wishlist);
+    toast.warn("Removed From Wishlist", TOAST_CONFIG);
 
     dataDispatch({
       type: TYPE.REMOVE_FROM_WISHLIST,

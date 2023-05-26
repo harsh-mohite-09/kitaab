@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useAuthContext } from "../../context/authContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -18,13 +18,32 @@ const NavBar = () => {
   const { wishlist, cart } = useDataContext();
   const { appliedFilters, filterDispatch } = useFilterContext();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [search, setSearch] = useState("");
+
+  // For debouncing search results.
+  useEffect(() => {
+    let timerId;
+    if (location?.pathname === "/products") {
+      timerId = setTimeout(() => {
+        filterDispatch({ type: TYPE.FILTER_BY_SEARCH, payload: search });
+      }, 500);
+    }
+    return () => clearTimeout(timerId);
+  }, [search]);
+
+  // For keeping search bar text and appliedFilters state in sync.
+  useEffect(() => {
+    setSearch(appliedFilters.filterBySearch);
+  }, [appliedFilters]);
 
   const searchInputChangeHandler = (e) => {
-    filterDispatch({ type: TYPE.FILTER_BY_SEARCH, payload: e.target.value });
+    setSearch(e.target.value);
   };
 
   const searchFormSubmitHandler = (e) => {
     e.preventDefault();
+    filterDispatch({ type: TYPE.FILTER_BY_SEARCH, payload: search });
     navigate("/products");
   };
 
@@ -36,10 +55,11 @@ const NavBar = () => {
             <p>Kitaab</p>
           </div>
         </Link>
+
         <form className="search-input" onSubmit={searchFormSubmitHandler}>
           <input
             type="text"
-            value={appliedFilters.filterBySearch}
+            value={search}
             onChange={searchInputChangeHandler}
           />
           <button>

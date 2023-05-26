@@ -2,41 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 import { useDataContext } from "../context/dataContext";
-import { TYPE } from "../utils/constants";
-import { removeFromCart } from "../services/cartServices";
-import { removeFromWishlist } from "../services/wishlistServices";
 import { useFilterContext } from "../context/filterContext";
+import { logoutUser } from "../services/authServices";
 
 const UserProfilePage = () => {
-  const { user, token, setToken } = useAuthContext();
-  const { cart, wishlist, dataDispatch, setLoader } = useDataContext();
+  const { user, setToken, setUser } = useAuthContext();
+  const { dataDispatch, setLoader } = useDataContext();
   const { filterDispatch } = useFilterContext();
-  // const navigate = useNavigate();
 
   const logoutHandler = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setToken(null);
-
-    for (const item of cart) {
-      removeFromCart(dataDispatch, item._id, token, true);
-    }
-
-    for (const item of wishlist) {
-      removeFromWishlist(dataDispatch, item._id, token, true);
-    }
-
-    dataDispatch({ type: TYPE.CLEAR_CART });
-    dataDispatch({ type: TYPE.CLEAR_WISHLIST });
-    filterDispatch({ type: TYPE.CLEAR_FILTERS });
-
-    setLoader(true);
-    setTimeout(() => {
-      setLoader(false);
-    }, 500);
+    logoutUser(setToken, setUser, dataDispatch, filterDispatch, setLoader);
   };
-
-  const activeUser = JSON.parse(user);
 
   return (
     <main className="user-profile-page">
@@ -52,9 +28,9 @@ const UserProfilePage = () => {
             </div>
             <div className="user-profile-card__details-main">
               <p>
-                Name: {activeUser.firstName} {activeUser.lastName}
+                Name: {user.firstName} {user.lastName}
               </p>
-              <p>Email: {activeUser.email} </p>
+              <p>Email: {user.email} </p>
             </div>
           </div>
           <button className="logout-btn" onClick={logoutHandler}>

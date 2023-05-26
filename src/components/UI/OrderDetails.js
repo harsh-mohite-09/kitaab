@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const OrderDetails = ({ cart }) => {
   const totalPrice = cart.reduce((acc, { price, qty }) => acc + price * qty, 0);
+  const totalItems = cart.reduce((acc, { qty }) => acc + qty, 0);
   const discountedPrice = totalPrice * 0.8;
   const totalDiscount = totalPrice * (1 - 0.8);
 
@@ -11,7 +12,7 @@ const OrderDetails = ({ cart }) => {
       <h2 className="order-title">Order Details</h2>
       <div className="order-details__row">
         <p>
-          <b>Price({cart.length} items) :</b>
+          <b>Price({totalItems} items) :</b>
         </p>
         <p className="order-price">₹ {totalPrice}</p>
       </div>

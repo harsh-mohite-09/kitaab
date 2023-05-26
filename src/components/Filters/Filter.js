@@ -8,36 +8,11 @@ const Filter = () => {
   const { appliedFilters, filterDispatch } = useFilterContext();
   const ratings = [1, 2, 3, 4];
 
-  const handlePriceFilter = (e) => {
-    filterDispatch({
-      type: TYPE.FILTER_BY_PRICE_RANGE,
-      payload: e.target.value,
-    });
+  const handleFilter = (e, filterType) => {
+    filterDispatch({ type: filterType, payload: e.target.value });
   };
 
-  const handleCategoryFilter = (e) => {
-    if (e.target.checked) {
-      filterDispatch({
-        type: TYPE.ADD_CATEGORY_FILTER,
-        payload: e.target.value,
-      });
-    } else {
-      filterDispatch({
-        type: TYPE.REMOVE_CATEGORY_FILTER,
-        payload: e.target.value,
-      });
-    }
-  };
-
-  const handleRatingFilter = (e) => {
-    filterDispatch({ type: TYPE.FILTER_BY_RATING, payload: e.target.value });
-  };
-
-  const handleSort = (e) => {
-    filterDispatch({ type: TYPE.SORT_BY_PRICE, payload: e.target.value });
-  };
-
-  const handleClearFilters = () => {
+  const handlerClearFilters = () => {
     filterDispatch({ type: TYPE.CLEAR_FILTERS });
     setDrawer(false);
   };
@@ -52,10 +27,7 @@ const Filter = () => {
         <div onClick={() => setDrawer(false)}>
           <h4>{drawer ? "⬅️" : ""}Filters</h4>
         </div>
-        {/* <button className="filter-apply-btn" onClick={handlerCloseFitlers}>
-          Apply
-        </button> */}
-        <button className="filter-clear-btn" onClick={handleClearFilters}>
+        <button className="filter-clear-btn" onClick={handlerClearFilters}>
           Clear
         </button>
       </div>
@@ -73,9 +45,10 @@ const Filter = () => {
             className="slider"
             min="100"
             max="1000"
-            step="100"
+            step="50"
             value={appliedFilters.filterByPriceRange}
-            onChange={handlePriceFilter}
+            // onChange={handlePriceFilter}
+            onChange={(e) => handleFilter(e, TYPE.FILTER_BY_PRICE_RANGE)}
           />
         </div>
       </div>
@@ -93,7 +66,8 @@ const Filter = () => {
                   checked={appliedFilters.filterByCategories.includes(
                     categoryName
                   )}
-                  onChange={handleCategoryFilter}
+                  // onChange={handleCategoryFilter}
+                  onChange={(e) => handleFilter(e, TYPE.FILTER_BY_CATEGORIES)}
                 />
                 <label htmlFor={categoryName}>{categoryTitle}</label>
               </li>
@@ -114,7 +88,8 @@ const Filter = () => {
                   id={rating}
                   value={rating}
                   checked={rating === +appliedFilters.filterByRating}
-                  onChange={handleRatingFilter}
+                  // onChange={handleRatingFilter}
+                  onChange={(e) => handleFilter(e, TYPE.FILTER_BY_RATING)}
                 />
                 <label htmlFor={rating}>
                   {rating} {`star${rating !== 1 ? "s" : ""}`} & above
@@ -134,7 +109,8 @@ const Filter = () => {
               value="LOW_TO_HIGH"
               className="radio-input"
               checked={appliedFilters.sortByPrice === "LOW_TO_HIGH"}
-              onChange={handleSort}
+              // onChange={handleSort}
+              onChange={(e) => handleFilter(e, TYPE.SORT_BY_PRICE)}
             />
             <span className="check-desc">Price - Low to High</span>
           </label>
@@ -145,7 +121,8 @@ const Filter = () => {
               value="HIGH_TO_LOW"
               className="radio-input"
               checked={appliedFilters.sortByPrice === "HIGH_TO_LOW"}
-              onChange={handleSort}
+              // onChange={handleSort}
+              onChange={(e) => handleFilter(e, TYPE.SORT_BY_PRICE)}
             />
             <span className="check-desc">Price - High to Low</span>
           </label>
