@@ -40,6 +40,8 @@ export const getFilteredProducts = (products, appliedFilters) => {
     sortByPrice,
   ];
 
+  // Here, function composition is used to pass the products array through each filter.
+
   return filterFunctions.reduce(
     (acc, func) => func(acc, appliedFilters),
     products

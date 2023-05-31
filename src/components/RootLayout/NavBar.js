@@ -60,6 +60,7 @@ const NavBar = () => {
           <input
             type="text"
             value={search}
+            placeholder="Search for books"
             onChange={searchInputChangeHandler}
           />
           <button>
@@ -68,6 +69,35 @@ const NavBar = () => {
         </form>
 
         <ul className="nav-links">
+          <li className="list">
+            <Link to="/products">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 14 14"
+              >
+                <g
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect width="3.5" height="13" x=".55" y=".5" rx=".5"></rect>
+                  <rect width="3.5" height="11" x="4.05" y="2.5" rx=".5"></rect>
+                  <rect
+                    width="3"
+                    height="11"
+                    x="9.26"
+                    y="2.3"
+                    rx=".5"
+                    transform="rotate(-14.05 10.779 7.795)"
+                  ></rect>
+                  <path d="M.55 10h3.5m0-1h3.5m2.5 2l2.88-.72"></path>
+                </g>
+              </svg>
+            </Link>
+          </li>
           <li className="list">
             <Link to="/wishlist">
               <FontAwesomeIcon icon={faHeart} />

@@ -3,11 +3,18 @@ import { useDataContext } from "../../context/dataContext";
 import { toast } from "react-toastify";
 import { useAuthContext } from "../../context/authContext";
 import confetti from "canvas-confetti";
+import { useNavigate } from "react-router-dom";
+import { TOAST_CONFIG } from "../../utils/constants";
 import { TYPE } from "../../utils/constants";
+import { useFilterContext } from "../../context/filterContext";
+import { removeFromCart } from "../../services/cartServices";
+import { removeFromWishlist } from "../../services/wishlistServices";
 
 const CheckoutDetails = ({ addressSelected }) => {
-  const { cart } = useDataContext();
-  const { user } = useAuthContext();
+  const { user, token } = useAuthContext();
+  const { cart, dataDispatch } = useDataContext();
+  const { filterDispatch } = useFilterContext();
+  const navigate = useNavigate();
 
   const totalPrice = cart.reduce((acc, { price, qty }) => acc + price * qty, 0);
   const discountedPrice = (totalPrice * 0.8).toFixed();
@@ -30,20 +37,19 @@ const CheckoutDetails = ({ addressSelected }) => {
   };
 
   const Popper = () => {
-    var end = Date.now() + 3 * 1000;
-    // go Buckeyes!
-    var colors = ["#392f5a", "#9583cf"];
+    var end = Date.now() + 2 * 1000;
+    var colors = ["#392f5a", "#9583cf", "#ff6f61"];
 
     (function frame() {
       confetti({
-        particleCount: 2,
+        particleCount: 3,
         angle: 40,
         spread: 55,
         origin: { x: 0 },
         colors: colors,
       });
       confetti({
-        particleCount: 2,
+        particleCount: 3,
         angle: 140,
         spread: 55,
         origin: { x: 1 },
@@ -73,6 +79,14 @@ const CheckoutDetails = ({ addressSelected }) => {
     });
   };
 
+  const clearAll = () => {
+    dataDispatch({ type: TYPE.CLEAR_CART });
+    filterDispatch({ type: TYPE.CLEAR_FILTERS });
+    for (const item of cart) {
+      removeFromCart(dataDispatch, item._id, token, () => {}, true);
+    }
+  };
+
   const displayRazorpay = async () => {
     if (addressSelected) {
       const res = await loadScript(
@@ -91,8 +105,10 @@ const CheckoutDetails = ({ addressSelected }) => {
         name: "Kitaab",
         description: "Thank you for shopping with us",
         handler: function (response) {
-          toast.success("Order Placed Successfully");
+          navigate("/order");
+          toast.success("Order Placed Successfully", TOAST_CONFIG);
           Popper();
+          clearAll();
         },
         prefill: {
           name: `${user?.firstName} ${user?.lastName}`,

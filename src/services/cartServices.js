@@ -35,7 +35,8 @@ export const removeFromCart = async (
   dataDispatch,
   productId,
   token,
-  setBtnDisabled
+  setBtnDisabled,
+  isClearing
 ) => {
   try {
     setBtnDisabled(true);
@@ -46,7 +47,9 @@ export const removeFromCart = async (
     });
     setBtnDisabled(false);
 
-    toast.warn("Removed From Cart", TOAST_CONFIG);
+    if (!isClearing) {
+      toast.warn("Removed From Cart", TOAST_CONFIG);
+    }
 
     dataDispatch({ type: TYPE.REMOVE_FROM_CART, payload: response.data.cart });
   } catch (error) {
