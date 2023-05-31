@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useAuthContext } from "../../context/authContext";
@@ -16,6 +16,7 @@ const ProductsCard = ({ product }) => {
   const { token } = useAuthContext();
   const { dataDispatch, cart, wishlist, drawer } = useDataContext();
   const navigate = useNavigate();
+  const location = useLocation();
   const [btnDisabled, setBtnDisabled] = useState(false);
 
   const isInCart = isProductInCart(cart, productId);
@@ -30,7 +31,7 @@ const ProductsCard = ({ product }) => {
         addToCart(dataDispatch, product, token, setBtnDisabled);
       }
     } else {
-      navigate("/login");
+      navigate("/login", { state: { from: location?.pathname } });
     }
   };
 
@@ -43,7 +44,7 @@ const ProductsCard = ({ product }) => {
         addToWishlist(dataDispatch, product, token, setBtnDisabled);
       }
     } else {
-      navigate("/login");
+      navigate("/login", { state: { from: location?.pathname } });
     }
   };
 
