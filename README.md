@@ -3,7 +3,7 @@
 # Kitaab
  An Ecommerce website for Books 
   
-  <a href="https://www.loom.com/share/ee6ccdbc8d8c48f79c9f43d161b5a036">
+  <a href="https://www.loom.com/share/ee6ccdbc8d8c48f79c9f43d161b5a036" target="_blank">
     <p>Live Demo - Ecommerce Book Store | Kitaab - Watch Video</p>
     <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/ee6ccdbc8d8c48f79c9f43d161b5a036-with-play.gif"> 
   </a>
