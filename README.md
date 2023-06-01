@@ -1,9 +1,14 @@
 <div align="center">
   
 # Kitaab
-  An Ecommerce website for Books 
-  https://www.loom.com/share/ee6ccdbc8d8c48f79c9f43d161b5a036
+ An Ecommerce website for Books 
+  
+  <a href="https://www.loom.com/share/ee6ccdbc8d8c48f79c9f43d161b5a036">
+    <p>Live Demo - Ecommerce Book Store | Kitaab - Watch Video</p>
+    <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/ee6ccdbc8d8c48f79c9f43d161b5a036-with-play.gif"> 
+  </a>
 </div>
+ 
 
 ## **How to install and run locally ?**
 
