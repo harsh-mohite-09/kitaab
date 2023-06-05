@@ -10,7 +10,7 @@ const CartPage = () => {
     <main className="cart-page">
       <h2 className="cart-header">Cart ({cart.length})</h2>
       {cart.length === 0 ? (
-        <p className="cart-empty">No Items in Wishilst!</p>
+        <p className="cart-empty">No Items in Cart!</p>
       ) : (
         <div className="cart-main-container">
           <div className="cart-items-container">
