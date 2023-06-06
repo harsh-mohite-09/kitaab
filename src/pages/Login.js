@@ -48,6 +48,8 @@ const LoginPage = () => {
     setUserConfig(testUserConfig);
   };
 
+  console.log(location);
+
   return (
     <main className="auth-page">
       <div className="auth-form auth-login">
@@ -86,7 +88,7 @@ const LoginPage = () => {
             </button>
           </div>
         </form>
-        <Link to="/signup" className="auth-link">
+        <Link to="/signup" className="auth-link" state={location?.state}>
           Create New Account
         </Link>
       </div>

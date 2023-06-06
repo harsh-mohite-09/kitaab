@@ -39,6 +39,8 @@ const SignupPage = () => {
     signupUser(setLoader, setToken, setUser, location, navigate, userConfig);
   };
 
+  console.log(location);
+
   return (
     <main className="auth-page">
       <div className="auth-form auth-signup">
@@ -118,7 +120,7 @@ const SignupPage = () => {
           </div>
           <button className="auth-btn">Sign Up</button>
         </form>
-        <Link to="/login" className="auth-link">
+        <Link to="/login" className="auth-link" state={location?.state}>
           Already have an account? Log in
         </Link>
       </div>
