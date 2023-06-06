@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../context/authContext";
 import { useDataContext } from "../context/dataContext";
 import { addToCart } from "../services/cartServices";
@@ -21,6 +21,7 @@ const ProductDetailPage = () => {
   const { token } = useAuthContext();
   const { dataDispatch, cart, wishlist, setLoader } = useDataContext();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const isInCart = isProductInCart(cart, productId);
   const isInWishlilst = isProductInWishlist(wishlist, productId);
@@ -37,7 +38,7 @@ const ProductDetailPage = () => {
         addToCart(dataDispatch, product, token, setBtnDisabled);
       }
     } else {
-      navigate("/login");
+      navigate("/login", { state: { from: location?.pathname } });
     }
   };
 
@@ -49,7 +50,7 @@ const ProductDetailPage = () => {
         addToWishlist(dataDispatch, product, token, setBtnDisabled);
       }
     } else {
-      navigate("/login");
+      navigate("/login", { state: { from: location?.pathname } });
     }
   };
 
